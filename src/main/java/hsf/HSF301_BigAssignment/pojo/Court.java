@@ -1,10 +1,12 @@
 package hsf.HSF301_BigAssignment.pojo;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.time.LocalTime;
 import java.util.List;
 @Entity
+@Data
 public class Court {
 
     @Id
