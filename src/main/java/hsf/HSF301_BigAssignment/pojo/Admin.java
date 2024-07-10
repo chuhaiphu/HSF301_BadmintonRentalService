@@ -1,9 +1,11 @@
 package hsf.HSF301_BigAssignment.pojo;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.List;
 @Entity
+@Data
 public class Admin {
 
     @Id

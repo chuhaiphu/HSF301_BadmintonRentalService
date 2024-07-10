@@ -2,12 +2,15 @@ package hsf.HSF301_BigAssignment.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+
 @Entity
+@Data
 public class Customer {
 
     @Id
@@ -26,7 +29,7 @@ public class Customer {
     @Column(name = "gender")
     private Boolean gender;
     @Column(name = "dob")
-    private Date dob;
+    private LocalDate dob;
     @Column(name = "first_name")
     private String firstName;
     @Column(name = "last_name")
