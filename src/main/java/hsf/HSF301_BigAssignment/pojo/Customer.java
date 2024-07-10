@@ -37,6 +37,6 @@ public class Customer {
     @UpdateTimestamp
     private LocalDate updateDate;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Payment> payments;
+//    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private List<Payment> payments;
 }

@@ -1,0 +1,7 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="cartItem(item)">
+<div class="flex justify-between py-4">
+    <span th:text="${item.name}"></span>
+    <span th:text="${item.price}"></span>
+</div>
+</html>

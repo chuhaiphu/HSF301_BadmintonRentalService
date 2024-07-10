@@ -15,11 +15,5 @@ public class Payment {
     @Column(name = "pay_at")
     private LocalDate payAt = LocalDate.now();
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
 
-    @ManyToOne
-    @JoinColumn(name = "court_id")
-    private Court court;
 }

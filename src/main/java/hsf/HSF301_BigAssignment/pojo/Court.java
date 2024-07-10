@@ -33,7 +33,7 @@ public class Court {
     @JoinColumn(name = "create_by")
     private Admin createBy;
 
-    @OneToMany(mappedBy = "court", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Payment> payments;
+//    @OneToMany(mappedBy = "court", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private List<Payment> payments;
 
 }
