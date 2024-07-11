@@ -20,4 +20,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
            "CAST(c.gender AS string) LIKE CONCAT('%', :searchTerm, '%') OR " +
            "CAST(c.status AS string) LIKE CONCAT('%', :searchTerm, '%')")
     List<Customer> searchCustomers(@Param("searchTerm") String searchTerm);
+
+    Customer findByEmail(String email);
 }
