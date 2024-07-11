@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Badminton Place Booking</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}"> <!-- Link to your CSS file -->
+    <script th:src="@{/js/home-page-banner.js}"></script>
+</head>
+<body>
+<header>
+    <div class="logo">
+        <a th:href="@{/home}" class="logo">
+            <img th:src="@{/icon/logo.png}" alt="Logo Image" class="logo-image">
+        </a>
+    </div>
+    <div class="search">
+        <input type="text" placeholder="Search courts...">
+    </div>
+    <div th:if="${customer == null}" class="login">
+        <a th:href="@{/login}" class="login">Login</a>
+    </div>
+    <div th:if="${customer != null}">
+        <div class="user-info">
+            <img th:src="@{/icon/user.jpg}" alt="Customer Image" class="profile-image" onclick="toggleDropdown()">
+            <div id="dropdownBanner" class="dropdown-banner">
+                <p>Welcome, <span th:text="${customer.username}">Customer Name</span></p>
+                <a th:href="@{/profile}" class="profile">View Profile</a>
+                <a th:href="@{/logout}" class="logout">Logout</a>
+            </div>
+        </div>
+    </div>
+    <a href="#" class="shopping">
+        <img th:src="@{/icon/cart.jpg}" alt="Cart Image" class="cart-image">
+    </a>
+</header>
+<div class="container">
+    <div class="court-container">
+        <div th:each="court : ${courts}" class="court">
+            <img th:src="@{${court.image}}" alt="Court Image">
+            <div class="court-details">
+                <div class="court-header">
+                    <h2 th:text="${court.name}"></h2>
+                </div>
+                <div class="court-info">
+                    <img th:src="@{/icon/address.webp}" alt="Address Image">
+                    <p th:text="${court.address}"></p>
+                </div>
+                <div class="court-info">
+                    <img th:src="@{/icon/phone.jpg}" alt="Phone Image">
+                    <p th:text="'Phone: ' + ${court.phone}"></p>
+                </div>
+                <div class="court-info">
+                    <img th:src="@{/icon/price.png}" alt="Price Image">
+                    <p th:text="'$' + ${court.price} + ' / hour'"></p>
+                </div>
+                <div class="court-info">
+                    <img th:src="@{/icon/description.png}" alt="Description Image">
+                    <p th:text="${court.description}"></p>
+                </div>
+            </div>
+            <a href="#" class="book-now-btn">Book Now</a>
+        </div>
+    </div>
+
+    <div class="recommended">
+        <h3>Recommended Courts</h3>
+        <br>
+        <div th:each="court : ${courts}" class="recommendedCourt">
+            <img th:src="${court.image}" alt="Image 2">
+            <h4 th:text="${court.description}"></h4>
+            <div class="recommendedCourt-detail">
+                <img th:src="@{/icon/address.webp}" alt="Image 1">
+                <p th:text="${court.address}"></p>
+            </div>
+            <br>
+        </div>
+
+    </div>
+
+
+</div>
+
+<!-----------------------footer------------->
+<footer>
+    <div class="footer-top">
+        <div class="footer-logo">
+            <img th:src="@{/icon/logo.png}" alt="Logo">
+        </div>
+        <div class="footer-links">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+        <div class="footer-social">
+            <h3>Follow Us</h3>
+            <div class="social-icons">
+                <a href="#" class="social-icon"><i class="fab fa-facebook-f">
+                    <img th:src="@{/icon/facebook.png}" alt="">
+                </i></a>
+                <a href="#" class="social-icon"><i class="fab fa-twitter">
+                    <img th:src="@{/icon/twitter.png}" alt="">
+                </i></a>
+                <a href="#" class="social-icon"><i class="fab fa-instagram">
+                    <img th:src="@{/icon/insta.webp}" alt="">
+                </i></a>
+            </div>
+        </div>
+        <div class="footer-contact">
+            <h3>Contact Us</h3>
+            <p>Email: info@example.com</p>
+            <p>Phone: +123 456 7890</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2024 Badminton Place Booking. All rights reserved.</p>
+        <ul>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+        </ul>
+    </div>
+</footer>
+
+</body>
+</html>

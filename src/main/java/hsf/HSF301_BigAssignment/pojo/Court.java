@@ -7,6 +7,7 @@ import java.time.LocalTime;
 import java.util.List;
 @Entity
 @Data
+@Table(name = "court")
 public class Court {
 
     @Id
@@ -16,8 +17,17 @@ public class Court {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "image")
+    private String image;
+
     @Column(name = "address")
     private String address;
+
+    @Column(name = "phone")
+    private String phone;
+
+    @Column(name = "price")
+    private Float price;
 
     @Column(name = "description")
     private String description;
