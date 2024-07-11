@@ -66,7 +66,8 @@ public class AuthController {
     @PostMapping("/login")
     public String login(@RequestParam String email,
                         @RequestParam String password,
-                        RedirectAttributes redirectAttributes) {
+                        RedirectAttributes redirectAttributes,
+                        HttpSession session) {
         Object result = authService.login(email, password);
         if (result == null) {
             customer = null;
@@ -74,7 +75,8 @@ public class AuthController {
             return "redirect:/login";
         } else if (result instanceof Customer) {
             customer = (Customer) result;
-            return "redirect:/customer";
+            session.setAttribute("customer", customer);
+            return "redirect:/home";
         } else if (result instanceof Admin){
             admin = (Admin) result;
             return "redirect:/admin";
