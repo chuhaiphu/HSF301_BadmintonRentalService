@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -25,6 +26,14 @@ public class HomeController {
             model.addAttribute("customer", customer);
         }
         model.addAttribute("courts", courts);
+        return "home-page";
+    }
+
+    @GetMapping("/search")
+    public String search(@RequestParam("query") String query, Model model) {
+        List<Court> courts = courtService.searchCourts(query);
+        model.addAttribute("courtsSearch", courts);
+        model.addAttribute("courts", courtService.getAllCourts());
         return "home-page";
     }
 

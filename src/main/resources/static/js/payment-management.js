@@ -1,62 +1,38 @@
-function openAddCarRentalModal() {
-    document.getElementById('addCarRentalModal').classList.remove('hidden');
+function openAddPaymentModal() {
+    document.getElementById('addPaymentModal').classList.remove('hidden');
 }
 
-function closeAddCarRentalModal() {
-    document.getElementById('addCarRentalModal').classList.add('hidden');
+function closeAddPaymentModal() {
+    document.getElementById('addPaymentModal').classList.add('hidden');
 }
 
-function openUpdateCarRentalModal(element) {
-    var rentalId = element.getAttribute('data-rental-id');
+function openUpdatePaymentModal(element) {
+    var paymentId = element.getAttribute('data-payment-id');
     var customerId = element.getAttribute('data-customer-id');
-    var carId = element.getAttribute('data-car-id');
-    var pickupDate = element.getAttribute('data-pickup-date');
-    var returnDate = element.getAttribute('data-return-date');
-    var rentPrice = element.getAttribute('data-rent-price');
-    var status = element.getAttribute('data-status');
-    var paymentMethod = element.getAttribute('data-payment-method');
+    var courtId = element.getAttribute('data-court-id');
+    var finalPrice = element.getAttribute('data-final-price');
+    var payAt = element.getAttribute('data-pay-at');
 
-    document.getElementById('rentalId').value = rentalId;
+    document.getElementById('paymentId').value = paymentId;
     document.getElementById('customerUpdate').value = customerId;
-    document.getElementById('carUpdate').value = carId;
-    document.getElementById('pickupDateUpdate').value = pickupDate;
-    document.getElementById('returnDateUpdate').value = returnDate;
-    document.getElementById('rentPriceUpdate').value = rentPrice;
-    document.getElementById('statusUpdate').value = status;
-    document.getElementById('paymentMethodUpdate').value = paymentMethod;
-    document.getElementById('updateCarRentalModal').classList.remove('hidden');
+    document.getElementById('courtUpdate').value = courtId;
+    document.getElementById('finalPriceUpdate').value = finalPrice;
+    document.getElementById('payAtUpdate').value = payAt;
+    document.getElementById('updatePaymentModal').classList.remove('hidden');
 }
 
-function closeUpdateCarRentalModal() {
-    document.getElementById('updateCarRentalModal').classList.add('hidden');
+function closeUpdatePaymentModal() {
+    document.getElementById('updatePaymentModal').classList.add('hidden');
 }
 
-function validateUpdateCarRentalForm() {
+function validatePaymentForm() {
     // Add your form validation logic here
     return true;
 }
-function openGenerateReportModal() {
-    document.getElementById('generateReportModal').classList.remove('hidden');
-}
 
-function closeGenerateReportModal() {
-    document.getElementById('generateReportModal').classList.add('hidden');
+function confirmDeletePayment(paymentId) {
+    if (confirm('Are you sure you want to delete this payment?')) {
+        window.location.href = '/admin/deletePayment/' + paymentId;
+    }
+    return false;
 }
-
-// function confirmDeleteCarRental(rentalId) {
-//     Swal.fire({
-//         title: 'Are you sure?',
-//         text: "You won't be able to revert this!",
-//         icon: 'warning',
-//         showCancelButton: true,
-//         confirmButtonColor: '#3085d6',
-//         cancelButtonColor: '#d33',
-//         confirmButtonText: 'Yes, delete it!'
-//     }).then((result) => {
-//         if (result.isConfirmed) {
-//             // If confirmed, redirect to delete URL
-//             window.location.href = '/admin/deleteCarRental/' + rentalId;
-//         }
-//     });
-//     return false; // Prevent the default link behavior
-// }
