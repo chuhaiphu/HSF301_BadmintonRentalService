@@ -1,41 +1,38 @@
-function openAddCarModal() {
-  document.getElementById('addCarModal').classList.remove('hidden');
+function openAddCourtModal() {
+  document.getElementById('addCourtModal').classList.remove('hidden');
 }
 
-function closeAddCarModal() {
-  document.getElementById('addCarModal').classList.add('hidden');
+function closeAddCourtModal() {
+  document.getElementById('addCourtModal').classList.add('hidden');
 }
 
-function openUpdateCarModal(element) {
-  var carId = element.getAttribute('data-car-id');
-  var carName = element.getAttribute('data-car-name');
-  var carModelYear = element.getAttribute('data-car-model-year');
-  var color = element.getAttribute('data-color');
-  var capacity = element.getAttribute('data-capacity');
-  var importDate = element.getAttribute('data-import-date');
-  var rentPrice = element.getAttribute('data-rent-price');
-  var carProducer = element.getAttribute('data-car-producer');
+function openUpdateCourtModal(element) {
+  var courtId = element.getAttribute('data-court-id');
+  var courtName = element.getAttribute('data-court-name');
+  var address = element.getAttribute('data-address');
+  var description = element.getAttribute('data-description');
+  var openTime = element.getAttribute('data-open-time');
+  var closeTime = element.getAttribute('data-close-time');
   var status = element.getAttribute('data-status');
 
-  document.getElementById('carId').value = carId;
-  document.getElementById('carNameUpdate').value = carName;
-  document.getElementById('carModelYearUpdate').value = carModelYear;
-  document.getElementById('colorUpdate').value = color;
-  document.getElementById('capacityUpdate').value = capacity;
-  document.getElementById('importDateUpdate').value = importDate;
-  document.getElementById('rentPriceUpdate').value = rentPrice;
-  document.getElementById('carProducerUpdate').value = carProducer;
+  document.getElementById('courtId').value = courtId;
+  document.getElementById('courtNameUpdate').value = courtName;
+  document.getElementById('addressUpdate').value = address;
+  document.getElementById('descriptionUpdate').value = description;
+  document.getElementById('openTimeUpdate').value = openTime;
+  document.getElementById('closeTimeUpdate').value = closeTime;
   document.getElementById('statusUpdate').value = status;
-  document.getElementById('updateCarModal').classList.remove('hidden');
+  document.getElementById('updateCourtModal').classList.remove('hidden');
 }
 
-function closeUpdateCarModal() {
-  document.getElementById('updateCarModal').classList.add('hidden');
+function closeUpdateCourtModal() {
+  document.getElementById('updateCourtModal').classList.add('hidden');
 }
-function confirmDelete(carId) {
+
+function confirmDelete(courtId) {
   Swal.fire({
     title: 'Are you sure?',
-    text: 'You are about to delete this car. This action cannot be undone.',
+    text: 'You are about to delete this court. This action cannot be undone.',
     icon: 'warning',
     showCancelButton: true,
     confirmButtonColor: '#d33',
@@ -44,13 +41,13 @@ function confirmDelete(carId) {
     cancelButtonText: 'Cancel'
   }).then((result) => {
     if (result.isConfirmed) {
-      window.location.href = `/admin/deleteCar/${carId}`;
+      window.location.href = `/admin/deleteCourt/${courtId}`;
     }
   });
   return false;
 }
 
-function validateUpdateCarForm() {
+function validateUpdateCourtForm() {
   // Add your form validation logic here
   return true;
 }
