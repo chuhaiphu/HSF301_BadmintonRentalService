@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
@@ -31,6 +31,6 @@ public class Cart {
     @OneToOne(mappedBy = "cart")
     private Payment payment;
 
-    private Boolean status; // Thêm trường status
+    private Boolean status;
 
 }

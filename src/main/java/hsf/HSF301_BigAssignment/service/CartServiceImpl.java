@@ -27,9 +27,9 @@ public class CartServiceImpl implements CartService{
     private CourtRepository courtRepository;
 
     @Override
-    public void addToCart(Long userId, Long courtId) {
-        Customer cus = customerRepository.findById(userId).get();
-        Court court = courtRepository.findById(courtId).get();
+    public void addToCart(Integer userId, Integer courtId) {
+        Customer cus = customerRepository.findById((long)userId).get();
+        Court court = courtRepository.findById((long)courtId).get();
         Cart cart = Cart.builder()
                 .customer(cus)
                 .court(court)
@@ -38,17 +38,23 @@ public class CartServiceImpl implements CartService{
         cartRepository.save(cart);
     }
 
-    @Override
-    public void clearExpiredCarts() {
-        LocalDateTime expirationTime = LocalDateTime.now().minusMinutes(5);
-        List<Cart> expiredCarts = cartRepository.findByStatusAndAddedAtBefore(false, expirationTime);
-        cartRepository.deleteAll(expiredCarts);
-    }
+
 
     @Override
-    public void markAsPaid(Long cartId) {
+    public void markAsPaid(Integer cartId) {
         Cart cart = cartRepository.findById(cartId).orElseThrow();
         cart.setStatus(true);
         cartRepository.save(cart);
+    }
+
+    @Override
+    public Boolean checkCartPaid(Integer customerId) {
+      return cartRepository.checkCartByUserId(customerId);
+    }
+
+    @Override
+    public List<Cart> viewCart(Integer customerId) {
+        List<Cart> carts = cartRepository.findAllFalseByCustomer_id(customerId);
+        return carts;
     }
 }

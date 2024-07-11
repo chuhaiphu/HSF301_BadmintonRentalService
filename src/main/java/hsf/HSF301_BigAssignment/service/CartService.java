@@ -1,9 +1,14 @@
 package hsf.HSF301_BigAssignment.service;
 
+import hsf.HSF301_BigAssignment.pojo.Cart;
+import java.util.List;
+
 public interface CartService {
-    void addToCart(Long userId, Long productId);
+    void addToCart(Integer userId, Integer courtId);
 
-    void clearExpiredCarts();
+    void markAsPaid(Integer cartId);
 
-    void markAsPaid(Long cartId);
+    Boolean checkCartPaid(Integer customerId);
+
+    List<Cart> viewCart(Integer customerId);
 }
