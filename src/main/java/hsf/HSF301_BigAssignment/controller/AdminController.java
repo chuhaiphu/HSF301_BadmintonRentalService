@@ -7,10 +7,12 @@ import hsf.HSF301_BigAssignment.service.CourtService;
 import hsf.HSF301_BigAssignment.service.CustomerService;
 import hsf.HSF301_BigAssignment.service.PaymentService;
 
+import hsf.HSF301_BigAssignment.utils.S3Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -85,8 +87,12 @@ public class AdminController {
     }
 
     @PostMapping("/addCourt")
-    public String addCourt(@ModelAttribute Court court, Model model) {
+    public String addCourt(@ModelAttribute Court court, @RequestParam(value = "imageFile", required = false) MultipartFile imageFile, Model model) {
         try {
+            if (imageFile != null && !imageFile.isEmpty()) {
+                String imageUrl = S3Utils.uploadFile(imageFile);
+                court.setImage(imageUrl);
+            }
             courtService.save(court);
             return "redirect:/admin/courts";
         } catch (Exception e) {
@@ -95,16 +101,22 @@ public class AdminController {
         }
     }
 
+
     @PostMapping("/updateCourt")
-    public String updateCourt(@ModelAttribute Court court, Model model) {
+    public String updateCourt(@ModelAttribute Court court, @RequestParam("imageFile") MultipartFile imageFile, Model model) {
         try {
+            if (!imageFile.isEmpty()) {
+                String imageUrl = S3Utils.uploadFile(imageFile);
+                court.setImage(imageUrl);
+            }
             courtService.update(court);
             return "redirect:/admin/courts";
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Error updating court: " + e.getMessage());
-            return showAdminCourtManagement(null, model);
+            return showAdminCourtManagement("", model);
         }
     }
+
 
     @GetMapping("/deleteCourt/{id}")
     public String deleteCourt(@PathVariable Integer id, Model model) {
