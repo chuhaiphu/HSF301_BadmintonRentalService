@@ -14,9 +14,10 @@
             <img th:src="@{/icon/logo.png}" alt="Logo Image" class="logo-image">
         </a>
     </div>
-    <div class="search">
-        <input type="text" placeholder="Search courts...">
-    </div>
+    <form class="search" th:action="@{/home/search}" method="get">
+        <input type="text" name="query" placeholder="Search courts...">
+        <button type="submit">Search</button>
+    </form>
     <div th:if="${customer == null}" class="login">
         <a th:href="@{/login}" class="login">Login</a>
     </div>
@@ -36,7 +37,7 @@
 </header>
 <div class="container">
     <div class="court-container">
-        <div th:each="court : ${courts}" class="court">
+        <div th:if="${courtsSearch != null}" th:each="court : ${courtsSearch}" class="court">
             <img th:src="@{${court.image}}" alt="Court Image">
             <div class="court-details">
                 <div class="court-header">
@@ -61,7 +62,34 @@
             </div>
             <a href="#" class="book-now-btn">Book Now</a>
         </div>
+        <div th:if="${courtsSearch == null}" th:each="court : ${courts}" class="court">
+            <img th:src="@{${court.image}}" alt="Court Image">
+            <div class="court-details">
+                <div class="court-header">
+                    <h2 th:text="${court.name}"></h2>
+                </div>
+                <div class="court-info">
+                    <img th:src="@{/icon/address.webp}" alt="Address Image">
+                    <p th:text="${court.address}"></p>
+                </div>
+                <div class="court-info">
+                    <img th:src="@{/icon/phone.jpg}" alt="Phone Image">
+                    <p th:text="'Phone: ' + ${court.phone}"></p>
+                </div>
+                <div class="court-info">
+                    <img th:src="@{/icon/price.png}" alt="Price Image">
+                    <p th:text="'$' + ${court.price} + ' / hour'"></p>
+                </div>
+                <div class="court-info">
+                    <img th:src="@{/icon/description.png}" alt="Description Image">
+                    <p th:text="${court.description}"></p>
+                </div>
+            </div>
+            <a href="#" class="book-now-btn">Book Now</a>
+        </div>
+
     </div>
+
 
     <div class="recommended">
         <h3>Recommended Courts</h3>
