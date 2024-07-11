@@ -11,6 +11,7 @@ import java.util.List;
 
 @Entity
 @Data
+@Table(name = "customer")
 public class Customer {
 
     @Id

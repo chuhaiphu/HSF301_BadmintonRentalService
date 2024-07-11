@@ -18,7 +18,7 @@ public class CourtService {
         return courtRepository.findAll();
     }
 
-public List<Court> searchCourts(String searchTerm) {
+    public List<Court> searchCourts(String searchTerm) {
         List<Court> allCourts = courtRepository.findAll();
         if (searchTerm == null || searchTerm.isEmpty()) {
             return allCourts;
@@ -46,6 +46,23 @@ public List<Court> searchCourts(String searchTerm) {
     }
 
     public void delete(Long id) {
+        courtRepository.deleteById(id);
+    }
+
+    public List<Court> getAllCourts() {
+        return courtRepository.findAll();
+    }
+
+
+    public List<Court> getCourtsByName(String name) {
+        return courtRepository.findCourtsByName(name);
+    }
+
+    public void addCourt(Court court) {
+        courtRepository.save(court);
+    }
+
+    public void deleteCourt(Long id) {
         courtRepository.deleteById(id);
     }
 }
