@@ -1,12 +1,18 @@
 package hsf.HSF301_BigAssignment.pojo;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalTime;
 import java.util.List;
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Court {
 
     @Id
@@ -35,7 +41,7 @@ public class Court {
     @JoinColumn(name = "create_by")
     private Admin createBy;
 
-//    @OneToMany(mappedBy = "court", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    private List<Payment> payments;
+    @OneToMany(mappedBy = "court", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Cart> carts;
 
 }

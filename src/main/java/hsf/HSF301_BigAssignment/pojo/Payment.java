@@ -1,11 +1,18 @@
 package hsf.HSF301_BigAssignment.pojo;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Payment {
 
     @Id
@@ -16,7 +23,9 @@ public class Payment {
     private Double finalPrice;
 
     @Column(name = "pay_at")
-    private LocalDate payAt = LocalDate.now();
+    private LocalDateTime payAt = LocalDateTime.now();
 
-
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cart_id", referencedColumnName = "id")
+    private Cart cart;
 }
