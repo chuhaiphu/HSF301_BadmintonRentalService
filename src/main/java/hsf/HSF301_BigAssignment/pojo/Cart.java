@@ -13,20 +13,24 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "payment")
-public class Payment {
-
+public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "final_price")
-    private Float finalPrice;
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
-    @Column(name = "pay_at")
-    private LocalDateTime payAt = LocalDateTime.now();
+    @ManyToOne
+    @JoinColumn(name = "court_id")
+    private Court court;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "cart_id", referencedColumnName = "id")
-    private Cart cart;
+    private LocalDateTime addedAt;
+
+    @OneToOne(mappedBy = "cart")
+    private Payment payment;
+
+    private Boolean status;
+
 }

@@ -65,4 +65,11 @@ public class CourtService {
     public void deleteCourt(Long id) {
         courtRepository.deleteById(id);
     }
+
+
+    public Court findById(Long courtId) {
+        Court court = courtRepository.findById(courtId).get();
+        return court;
+    }
+
 }
