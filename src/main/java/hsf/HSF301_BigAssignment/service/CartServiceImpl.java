@@ -27,34 +27,32 @@ public class CartServiceImpl implements CartService{
     private CourtRepository courtRepository;
 
     @Override
-    public void addToCart(Integer userId, Integer courtId) {
-        Customer cus = customerRepository.findById((long)userId).get();
-        Court court = courtRepository.findById((long)courtId).get();
+    public void addToCart(Long userId, Long courtId) {
+        Customer cus = customerRepository.findById(userId).get();
+        Court court = courtRepository.findById(courtId).get();
         Cart cart = Cart.builder()
                 .customer(cus)
                 .court(court)
+                .addedAt(LocalDateTime.now())
                 .status(false)
                 .build();
         cartRepository.save(cart);
     }
 
 
-
     @Override
-    public void markAsPaid(Integer cartId) {
-        Cart cart = cartRepository.findById(cartId).orElseThrow();
-        cart.setStatus(true);
-        cartRepository.save(cart);
-    }
-
-    @Override
-    public Boolean checkCartPaid(Integer customerId) {
+    public Boolean checkCartPaid(Long customerId) {
       return cartRepository.checkCartByUserId(customerId);
     }
 
     @Override
-    public List<Cart> viewCart(Integer customerId) {
+    public List<Cart> viewCart(Long customerId) {
         List<Cart> carts = cartRepository.findAllFalseByCustomer_id(customerId);
         return carts;
+    }
+
+    @Override
+    public Cart findById(Long cartId) {
+        return cartRepository.findById(cartId).get();
     }
 }

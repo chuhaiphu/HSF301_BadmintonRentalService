@@ -28,6 +28,21 @@ header {
 
 }
 
+.message {
+    color: green;
+    font-weight: bold;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.warning {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    margin: 20px 0;
+}
+
+
 .search {
     display: flex;
     align-items: center;

@@ -18,10 +18,10 @@ public class Payment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "final_price")
-    private Double finalPrice;
+    private Float finalPrice;
 
     @Column(name = "pay_at")
     private LocalDateTime payAt = LocalDateTime.now();

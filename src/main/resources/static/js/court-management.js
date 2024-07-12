@@ -14,8 +14,6 @@ function openUpdateCourtModal(element) {
   var openTime = element.getAttribute('data-open-time');
   var closeTime = element.getAttribute('data-close-time');
   var status = element.getAttribute('data-status');
-  var phone = element.getAttribute('data-phone');
-  var price = element.getAttribute('data-price');
 
   document.getElementById('courtId').value = courtId;
   document.getElementById('courtNameUpdate').value = courtName;
@@ -24,11 +22,8 @@ function openUpdateCourtModal(element) {
   document.getElementById('openTimeUpdate').value = openTime;
   document.getElementById('closeTimeUpdate').value = closeTime;
   document.getElementById('statusUpdate').value = status;
-  document.getElementById('phoneUpdate').value = phone;
-  document.getElementById('priceUpdate').value = price;
   document.getElementById('updateCourtModal').classList.remove('hidden');
 }
-
 
 function closeUpdateCourtModal() {
   document.getElementById('updateCourtModal').classList.add('hidden');
