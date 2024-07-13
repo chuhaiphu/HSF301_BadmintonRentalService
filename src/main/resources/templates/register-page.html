@@ -2,92 +2,117 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Badminton Rental Website</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script th:src="@{/js/register.js}"></script>
+    <style>
+        .page-content {
+            width: 100%;
+            margin: 0 auto;
+            background: #75e2e9;
+            display: flex;
+            display: -webkit-flex;
+            justify-content: center;
+            -o-justify-content: center;
+            -ms-justify-content: center;
+            -moz-justify-content: center;
+            -webkit-justify-content: center;
+            align-items: center;
+            -o-align-items: center;
+            -ms-align-items: center;
+            -moz-align-items: center;
+            -webkit-align-items: center;
+            background-image: -moz-linear-gradient( 136deg,rgb(149,153,226) 0%,rgb(139,198,236) 100%);
+            background-image: -webkit-linear-gradient( 136deg,rgb(149,153,226) 0%,rgb(139,198,236) 100%);
+            background-image: -ms-linear-gradient( 136deg,rgb(149,153,226) 0%,rgb(139,198,236) 100%)
+        }
+    </style>
 </head>
 <body>
-<div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-    <div class="sm:mx-auto sm:w-full sm:max-w-md">
-        <img class="mx-auto h-10 w-auto" src="https://www.svgrepo.com/show/301692/login.svg" alt="Workflow">
-        <h2 class="mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900">
-            Create a new account
-        </h2>
-        <p class="mt-2 text-center text-sm leading-5 text-gray-500 max-w">
-            Or
-            <a href="/login"
-               class="font-medium text-blue-600 hover:text-blue-500 focus:outline-none focus:underline transition ease-in-out duration-150">
-                login to your account
-            </a>
-        </p>
-    </div>
+<div class="page-content">
+    <div class="min-h-screen flex items-center justify-center w-full dark:bg-gray-950">
+        <div class="sm:mx-auto sm:w-full sm:max-w-md">
+            <img class="mx-auto h-10 w-auto" src="https://www.svgrepo.com/show/301692/login.svg" alt="Workflow">
+            <h2 class="mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900">
+                Create a new account
+            </h2>
+            <p class="mt-2 text-center text-sm leading-5 text-gray-500 max-w">
+                Or
+                <a href="/login"
+                   class="font-medium text-blue-600 hover:text-blue-500 focus:outline-none focus:underline transition ease-in-out duration-150">
+                    login to your account
+                </a>
+            </p>
+        </div>
 
-    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-            <form th:action="@{/register}" method="post" onsubmit="return validateForm()">
-                <div class="mb-4">
-                    <label for="username" class="block text-gray-700 font-bold mb-2">Username</label>
-                    <input type="text" id="username" name="username"
-                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                           required>
-                </div>
-                <div class="mb-4">
-                    <label for="email" class="block text-gray-700 font-bold mb-2">Email</label>
-                    <input type="email" id="email" name="email"
-                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                           required>
-                </div>
-                <div class="mb-4">
-                    <label for="password" class="block text-gray-700 font-bold mb-2">Password</label>
-                    <input type="password" id="password" name="password"
-                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                           required>
-                </div>
-                <div class="mb-4">
-                    <label for="confirmPassword" class="block text-gray-700 font-bold mb-2">Confirm Password</label>
-                    <input type="password" id="confirmPassword" name="confirmPassword"
-                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                           required>
-                </div>
-                <div class="mb-4">
-                    <label for="firstName" class="block text-gray-700 font-bold mb-2">First Name</label>
-                    <input type="text" id="firstName" name="firstName"
-                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                           required>
-                </div>
-                <div class="mb-4">
-                    <label for="lastName" class="block text-gray-700 font-bold mb-2">Last Name</label>
-                    <input type="text" id="lastName" name="lastName"
-                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                           required>
-                </div>
-                <div class="mb-4">
-                    <label for="gender" class="block text-gray-700 font-bold mb-2">Gender</label>
-                    <select id="gender" name="gender"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                            required>
-                        <option value="true">Male</option>
-                        <option value="false">Female</option>
-                    </select>
-                </div>
-                <div class="mb-4">
-                    <label for="dob" class="block text-gray-700 font-bold mb-2">Date of Birth</label>
-                    <input type="date" id="dob" name="dob"
-                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                           required>
-                </div>
-                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                    <button type="submit"
-                            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm">
-                        Register
-                    </button>
-                    <button type="button"
-                            class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                        Cancel
-                    </button>
-                </div>
-            </form>
+        <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+            <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+                <form th:action="@{/register}" method="post" onsubmit="return validateForm()">
+                    <div class="mb-4">
+                        <label for="username" class="block text-gray-700 font-bold mb-2">Username</label>
+                        <input type="text" id="username" name="username"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                               required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="email" class="block text-gray-700 font-bold mb-2">Email</label>
+                        <input type="email" id="email" name="email"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                               required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="password" class="block text-gray-700 font-bold mb-2">Password</label>
+                        <input type="password" id="password" name="password"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                               required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="confirmPassword" class="block text-gray-700 font-bold mb-2">Confirm Password</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                               required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="firstName" class="block text-gray-700 font-bold mb-2">First Name</label>
+                        <input type="text" id="firstName" name="firstName"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                               required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="lastName" class="block text-gray-700 font-bold mb-2">Last Name</label>
+                        <input type="text" id="lastName" name="lastName"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                               required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="gender" class="block text-gray-700 font-bold mb-2">Gender</label>
+                        <select id="gender" name="gender"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                required>
+                            <option value="true">Male</option>
+                            <option value="false">Female</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label for="dob" class="block text-gray-700 font-bold mb-2">Date of Birth</label>
+                        <input type="date" id="dob" name="dob"
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                               required>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                        <button type="submit"
+                                class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm">
+                            Register
+                        </button>
+                        <button type="button"
+                                class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
 
+            </div>
         </div>
     </div>
 </div>
