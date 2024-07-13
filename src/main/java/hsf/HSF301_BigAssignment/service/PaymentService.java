@@ -23,9 +23,9 @@ public class PaymentService {
         return paymentRepository.findAll();
     }
 
-//    public List<Payment> searchPayments(String searchTerm) {
-//        return paymentRepository.searchPayments(searchTerm);
-//    }
+    public List<Payment> searchPayments(String searchTerm) {
+        return paymentRepository.searchPayments(searchTerm);
+    }
 
     @Transactional
     public void save(Payment payment) {

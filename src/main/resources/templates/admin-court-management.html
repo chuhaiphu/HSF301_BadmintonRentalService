@@ -16,12 +16,8 @@
     <div class="min-h-screen grid grid-cols-5">
         <div class="h-full col-span-1">
             <div class="h-full flex grow flex-col gap-y-5 overflow-y-auto border-r px-6">
-                <div class="flex h-16 shrink-0 items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-auto text-indigo-900" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/>
-                    </svg>
-                    <span class="text-[1.1vw] font-bold text-indigo-900 tracking-wide">BADMINTON COURT BOOKING</span>
-
+                <div class="flex justify-center">
+                    <img th:src="@{/icon/logo.png}" alt="Logo Image" class="logo-image h-32 w-32">
                 </div>
                 <nav class="flex flex-1 flex-col">
                     <ul role="list" class="flex flex-1 flex-col">
@@ -66,7 +62,8 @@
         </div>
         <div class="col-span-4 h-full">
             <header class="bg-white shadow-md">
-                <nav class="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
+                <nav class="items-center justify-between p-6 lg:px-8" aria-label="Global">
+                    <h1 class="font-bold text-indigo-900 tracking-wide mb-2">BADMINTON COURT BOOKING</h1>
                     <div class="flex lg:flex-1 items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-2 text-red-600" viewBox="0 0 20 20"
                             fill="currentColor">
@@ -79,7 +76,7 @@
                     </div>
                 </nav>
             </header>
-            <div class="ml-8 sm:ml-12 lg:ml-16 mr-24 sm:mr-36 lg:mr-48">
+            <div class="ml-4 sm:ml-6 lg:ml-12 mr-16 sm:mr-24 lg:mr-36">
                 <div class="border-b border-gray-200">
                     <div class="sm:mt-0 sm:pt-4 sm:pb-2 lg:pt-6 lg:pb-4">
                         <button type="button" onclick="openAddCourtModal()"
@@ -113,19 +110,36 @@
                                                 class="py-3.5 pl-4 pr-3 text-left text-sm font-bold text-gray-900 sm:pl-0">
                                                 COURT NAME
                                             </th>
-                                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-bold text-gray-900">
+                                            <th scope="col"
+                                                class="px-3 py-3.5 text-left text-sm font-bold text-gray-900">
                                                 ADDRESS
                                             </th>
-                                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-bold text-gray-900">
+                                            <th scope="col"
+                                                class="px-3 py-3.5 text-left text-sm font-bold text-gray-900">
                                                 DESCRIPTION
                                             </th>
-                                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-bold text-gray-900">
+                                            <th scope="col"
+                                                class="px-3 py-3.5 text-left text-sm font-bold text-gray-900">
                                                 OPEN TIME
                                             </th>
-                                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-bold text-gray-900">
+                                            <th scope="col"
+                                                class="px-3 py-3.5 text-left text-sm font-bold text-gray-900">
                                                 CLOSE TIME
                                             </th>
-                                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-bold text-gray-900">
+                                            <th scope="col"
+                                                class="px-3 py-3.5 text-left text-sm font-bold text-gray-900">
+                                                IMAGE
+                                            </th>
+                                            <th scope="col"
+                                                class="px-3 py-3.5 text-left text-sm font-bold text-gray-900">
+                                                PHONE
+                                            </th>
+                                            <th scope="col"
+                                                class="px-3 py-3.5 text-left text-sm font-bold text-gray-900">
+                                                PRICE
+                                            </th>
+                                            <th scope="col"
+                                                class="px-3 py-3.5 text-left text-sm font-bold text-gray-900">
                                                 STATUS
                                             </th>
                                             <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0">
@@ -148,7 +162,18 @@
                                                 th:text="${court.openTime}"></td>
                                             <td class="whitespace-nowrap px-3 py-4 text-[1vw] font-medium text-gray-600"
                                                 th:text="${court.closeTime}"></td>
-                                            <td class="whitespace-nowrap px-2 py-4 text-[1vw] font-medium text-gray-600">
+                                            <td
+                                                class="whitespace-nowrap px-3 py-4 text-[1vw] font-medium text-gray-600">
+                                                <img th:src="${court.image}" alt="Court Image"
+                                                    class="h-10 w-10 object-cover rounded-full">
+                                            </td>
+                                            <td class="whitespace-nowrap px-3 py-4 text-[1vw] font-medium text-gray-600"
+                                                th:text="${court.phone}"></td>
+                                            <td class="whitespace-nowrap px-3 py-4 text-[1vw] font-medium text-gray-600"
+                                                th:text="${court.price}"></td>
+
+                                            <td
+                                                class="whitespace-nowrap px-2 py-4 text-[1vw] font-medium text-gray-600">
                                                 <span th:if="${court.status}" th:text="Available"
                                                     class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-sm font-medium text-green-700">
                                                 </span>
@@ -156,18 +181,21 @@
                                                     class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-sm font-medium text-red-700">
                                                 </span>
                                             </td>
-                                            <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-[1.1vw] font-medium sm:pr-0">
+                                            <td
+                                                class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-[1.1vw] font-medium sm:pr-0">
                                                 <a href="#" th:data-court-id="${court.id}"
                                                     th:data-court-name="${court.name}"
                                                     th:data-address="${court.address}"
                                                     th:data-description="${court.description}"
                                                     th:data-open-time="${court.openTime}"
                                                     th:data-close-time="${court.closeTime}"
-                                                    th:data-status="${court.status}"
-                                                    onclick="openUpdateCourtModal(this)"
+                                                    th:data-status="${court.status}" th:data-phone="${court.phone}"
+                                                    th:data-price="${court.price}" onclick="openUpdateCourtModal(this)"
                                                     class="text-indigo-600 hover:text-indigo-900">Edit</a>
+
                                             </td>
-                                            <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-[1.1vw] font-medium sm:pr-0">
+                                            <td
+                                                class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-[1.1vw] font-medium sm:pr-0">
                                                 <a href="#" class="text-red-600 hover:text-red-900"
                                                     th:onclick="'return confirmDelete(' + ${court.id} + ')'">Delete</a>
                                             </td>
@@ -178,7 +206,7 @@
                         </div>
                     </div>
                 </div>
-            </div>            
+            </div>
         </div>
     </div>
     <div id="addCourtModal" class="fixed z-10 inset-0 overflow-y-auto hidden">
@@ -188,7 +216,8 @@
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                     <h3 class="text-lg leading-6 font-medium text-gray-900">Add Court Form</h3>
                     <div class="mt-4">
-                        <form th:action="@{/admin/addCourt}" method="post" onsubmit="return validateCourtForm()">
+                        <form th:action="@{/admin/addCourt}" enctype="multipart/form-data" method="post"
+                            onsubmit="return validateCourtForm()">
                             <div class="mb-4">
                                 <label for="courtName" class="block text-gray-700 font-bold mb-2">Court Name</label>
                                 <input type="text" id="courtName" name="name"
@@ -220,6 +249,23 @@
                                     required>
                             </div>
                             <div class="mb-4">
+                                <label for="imageFile" class="block text-gray-700 font-bold mb-2">Court Image</label>
+                                <input type="file" id="imageFile" name="imageFile" accept="image/*"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                            <div class="mb-4">
+                                <label for="phone" class="block text-gray-700 font-bold mb-2">Phone</label>
+                                <input type="text" id="phone" name="phone"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                    required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="price" class="block text-gray-700 font-bold mb-2">Price</label>
+                                <input type="number" step="0.01" id="price" name="price"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                    required>
+                            </div>
+                            <div class="mb-4">
                                 <label for="status" class="block text-gray-700 font-bold mb-2">Status</label>
                                 <select id="status" name="status"
                                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
@@ -245,7 +291,7 @@
             </div>
         </div>
     </div>
-    
+
     <div id="updateCourtModal" class="fixed z-10 inset-0 overflow-y-auto hidden">
         <div class="flex items-center justify-center min-h-screen">
             <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
@@ -253,13 +299,21 @@
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                     <h3 class="text-lg leading-6 font-medium text-gray-900">Edit Court Information</h3>
                     <div class="mt-4">
-                        <form th:action="@{/admin/updateCourt}" method="post" onsubmit="return validateUpdateCourtForm()">
+                        <form th:action="@{/admin/updateCourt}" method="post" enctype="multipart/form-data"
+                            onsubmit="return validateUpdateCourtForm()">
                             <input type="hidden" id="courtId" name="id">
                             <div class="mb-4">
-                                <label for="courtNameUpdate" class="block text-gray-700 font-bold mb-2">Court Name</label>
+                                <label for="courtNameUpdate" class="block text-gray-700 font-bold mb-2">Court
+                                    Name</label>
                                 <input type="text" id="courtNameUpdate" name="name"
                                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                                     required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="imageFileUpdate" class="block text-gray-700 font-bold mb-2">Court
+                                    Image</label>
+                                <input type="file" id="imageFileUpdate" name="imageFile" accept="image/*"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
                             </div>
                             <div class="mb-4">
                                 <label for="addressUpdate" class="block text-gray-700 font-bold mb-2">Address</label>
@@ -268,7 +322,20 @@
                                     required>
                             </div>
                             <div class="mb-4">
-                                <label for="descriptionUpdate" class="block text-gray-700 font-bold mb-2">Description</label>
+                                <label for="phoneUpdate" class="block text-gray-700 font-bold mb-2">Phone</label>
+                                <input type="text" id="phoneUpdate" name="phone"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                    required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="priceUpdate" class="block text-gray-700 font-bold mb-2">Price</label>
+                                <input type="number" step="0.01" id="priceUpdate" name="price"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                    required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="descriptionUpdate"
+                                    class="block text-gray-700 font-bold mb-2">Description</label>
                                 <textarea id="descriptionUpdate" name="description"
                                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                                     required></textarea>
@@ -280,7 +347,8 @@
                                     required>
                             </div>
                             <div class="mb-4">
-                                <label for="closeTimeUpdate" class="block text-gray-700 font-bold mb-2">Close Time</label>
+                                <label for="closeTimeUpdate" class="block text-gray-700 font-bold mb-2">Close
+                                    Time</label>
                                 <input type="time" id="closeTimeUpdate" name="closeTime"
                                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                                     required>
@@ -311,7 +379,6 @@
             </div>
         </div>
     </div>
-    
 
 
     <script th:if="${errorMessage}">
