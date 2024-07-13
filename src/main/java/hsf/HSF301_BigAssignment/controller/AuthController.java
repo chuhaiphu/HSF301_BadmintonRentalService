@@ -18,20 +18,20 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequiredArgsConstructor
 public class AuthController {
 
-    public static Customer customer = null;
-    public static Admin admin = null;
     private final IAuthService authService;
     private final CustomerService customerService;
 
     @GetMapping("/")
-    public String authRedirect() {
+    public String authRedirect(HttpSession session) {
+        Admin admin = (Admin) session.getAttribute("admin");
+        Customer customer = (Customer) session.getAttribute("customer");
         if (customer == null && admin == null) {
             return "redirect:/login";
         }
-        else if (customer != null) {
-            return "redirect:/customer";
-        } else {
+        else if (admin != null) {
             return "redirect:/admin";
+        } else {
+            return "redirect:/customer";
         }
     }
 
@@ -69,16 +69,11 @@ public class AuthController {
                         RedirectAttributes redirectAttributes,
                         HttpSession session) {
         Object result = authService.login(email, password);
-        if (result == null) {
-            customer = null;
-            admin = null;
-            return "redirect:/login";
-        } else if (result instanceof Customer) {
-            customer = (Customer) result;
+        if (result instanceof Customer customer) {
             session.setAttribute("customer", customer);
             return "redirect:/home";
-        } else if (result instanceof Admin){
-            admin = (Admin) result;
+        } else if (result instanceof Admin admin){
+            session.setAttribute("admin", admin);
             return "redirect:/admin";
         }
         redirectAttributes.addFlashAttribute("loginStatus", "failure");
@@ -86,9 +81,8 @@ public class AuthController {
     }
 
     @GetMapping("/logout")
-    public String logout() {
-        customer = null;
-        admin = null;
+    public String logout(HttpSession session) {
+        session.invalidate();
         return "redirect:/login";
     }
 }
