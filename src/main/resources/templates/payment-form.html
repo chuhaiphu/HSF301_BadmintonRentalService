@@ -29,7 +29,7 @@
             <p class="text-xl font-bold">$<span th:text="${payment.finalPrice}">Final Price</span></p>
         </div>
 
-        <form th:action="@{/process-payment}" th:object="${payment}" method="post">
+        <form th:action="@{/api/v1/payment/process-payment}" th:object="${payment}" method="post">
             <input type="hidden" th:field="*{id}" />
             <input type="hidden" th:field="*{finalPrice}" />
             <input type="hidden" th:field="*{payAt}" />
@@ -40,7 +40,7 @@
             </button>
         </form>
 
-        <a href="/home" class="block mt-4 w-full bg-gray-500 text-white text-center font-bold py-2 px-4 rounded hover:bg-gray-700 transition duration-200">
+        <a th:href="@{/home}" class="block mt-4 w-full bg-gray-500 text-white text-center font-bold py-2 px-4 rounded hover:bg-gray-700 transition duration-200">
             Back to Home
         </a>
     </div>

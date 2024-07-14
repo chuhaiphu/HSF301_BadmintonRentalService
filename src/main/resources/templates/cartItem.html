@@ -31,7 +31,7 @@
                 <td class="py-3 px-6" th:text="${cart.addedAt}"></td>
                 <td class="py-3 px-6" th:text="${cart.status ? 'Paid' : 'Unpaid'}"></td>
                 <td class="py-3 px-6">
-                    <a class="text-blue-500 hover:underline" th:href="@{/payment-form/{cartId}(cartId=${cart.id})}">Pay Now</a>
+                    <a class="text-blue-500 hover:underline" th:href="@{/api/v1/payment/payment-form/{cartId}(cartId=${cart.id})}">Pay Now</a>
                 </td>
             </tr>
             </tbody>
