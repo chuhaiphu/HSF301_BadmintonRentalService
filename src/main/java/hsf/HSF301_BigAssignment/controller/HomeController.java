@@ -34,7 +34,7 @@ public class HomeController {
         List<Court> courts = courtService.searchCourts(query);
         model.addAttribute("courtsSearch", courts);
         model.addAttribute("courts", courtService.getAllCourts());
-        return "home-page";
+        return "redirect:/home";
     }
 
 }
