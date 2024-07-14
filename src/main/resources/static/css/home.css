@@ -258,12 +258,6 @@ body {
     margin-bottom: 20px
 }
 
-.recommendedCourt .recommendedCourt-detail img {
-    width:9%; /* Adjust size of the image */
-    height: auto;
-    margin-right: 10px;
-}
-
 .recommendedCourt .recommendedCourt-detail p {
     margin: 0;
     font-size: 0.8rem;
