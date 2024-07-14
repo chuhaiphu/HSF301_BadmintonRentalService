@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
@@ -26,7 +26,7 @@ public class Cart {
     @JoinColumn(name = "court_id")
     private Court court;
 
-    private LocalDateTime addedAt = LocalDateTime.now();
+    private LocalDateTime addedAt;
 
     @OneToOne(mappedBy = "cart")
     private Payment payment;

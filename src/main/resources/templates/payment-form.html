@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment Confirmation</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+
+<div class="container mx-auto p-4">
+    <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold mb-4">Payment Confirmation</h2>
+
+        <div class="mb-4">
+            <h3 class="text-lg font-semibold">Court Details</h3>
+            <p><strong>Name:</strong> <span th:text="${payment.cart.court.name}">Court Name</span></p>
+            <p><strong>Address:</strong> <span th:text="${payment.cart.court.address}">Court Address</span></p>
+            <p><strong>Phone:</strong> <span th:text="${payment.cart.court.phone}">Court Phone</span></p>
+        </div>
+
+        <div class="mb-4">
+            <h3 class="text-lg font-semibold">Booking Details</h3>
+            <p><strong>Price:</strong> $<span th:text="${payment.cart.court.price}">Court Price</span> / hour</p>
+            <p><strong>Booking Time:</strong> <span th:text="${payment.cart.addedAt}">Booking Time</span></p>
+        </div>
+
+        <div class="mb-4">
+            <h3 class="text-lg font-semibold">Total Amount</h3>
+            <p class="text-xl font-bold">$<span th:text="${payment.finalPrice}">Final Price</span></p>
+        </div>
+
+        <form th:action="@{/api/v1/payment/process-payment}" th:object="${payment}" method="post">
+            <input type="hidden" th:field="*{id}" />
+            <input type="hidden" th:field="*{finalPrice}" />
+            <input type="hidden" th:field="*{payAt}" />
+            <input type="hidden" th:field="*{cart.id}" />
+
+            <button type="submit" class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-200">
+                Pay Now
+            </button>
+        </form>
+
+        <a th:href="@{/home}" class="block mt-4 w-full bg-gray-500 text-white text-center font-bold py-2 px-4 rounded hover:bg-gray-700 transition duration-200">
+            Back to Home
+        </a>
+    </div>
+</div>
+
+</body>
+</html>

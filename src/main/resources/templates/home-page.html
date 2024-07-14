@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=devic
+    e-width, initial-scale=1.0">
     <title>Badminton Place Booking</title>
     <link rel="stylesheet" th:href="@{/css/home.css}"> <!-- Link to your CSS file -->
     <script th:src="@{/js/home-page-banner.js}"></script>
@@ -31,12 +32,17 @@
             </div>
         </div>
     </div>
-    <a href="#" class="shopping">
+    <a th:href="@{/api/v1/cart/view-cart}" class="shopping">
         <img th:src="@{/icon/cart.jpg}" alt="Cart Image" class="cart-image">
     </a>
 </header>
 <div class="container">
+    <!-- Messages Section -->
+
+
     <div class="court-container">
+        <h2 th:if="${message}" class="message" th:text="${message}"></h2>
+        <h2 th:if="${warning}" class="warning" th:text="${warning}"></h2>
         <div th:if="${courtsSearch != null}" th:each="court : ${courtsSearch}" class="court">
             <img th:src="@{${court.image}}" alt="Court Image">
             <div class="court-details">
@@ -60,7 +66,7 @@
                     <p th:text="${court.description}"></p>
                 </div>
             </div>
-            <a href="#" class="book-now-btn">Book Now</a>
+            <a th:href="@{/api/v1/cart/add-cart/{courtId}(courtId=${court.id})}" class="book-now-btn">Book Now</a>
         </div>
         <div th:if="${courtsSearch == null}" th:each="court : ${courts}" class="court">
             <img th:src="@{${court.image}}" alt="Court Image">
@@ -85,11 +91,9 @@
                     <p th:text="${court.description}"></p>
                 </div>
             </div>
-            <a href="#" class="book-now-btn">Book Now</a>
+            <a th:href="@{/api/v1/cart/add-cart/{courtId}(courtId=${court.id})}" class="book-now-btn">Book Now</a>
         </div>
-
     </div>
-
 
     <div class="recommended">
         <h3>Recommended Courts</h3>
@@ -103,10 +107,7 @@
             </div>
             <br>
         </div>
-
     </div>
-
-
 </div>
 
 <!-----------------------footer------------->
@@ -151,6 +152,5 @@
         </ul>
     </div>
 </footer>
-
 </body>
 </html>

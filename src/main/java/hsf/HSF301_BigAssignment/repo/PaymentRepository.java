@@ -11,11 +11,8 @@ import java.util.List;
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
     @Query("SELECT p FROM Payment p WHERE " +
-           "CAST(p.id AS string) LIKE CONCAT('%', :searchTerm, '%') OR " +
-           "CAST(p.finalPrice AS string) LIKE CONCAT('%', :searchTerm, '%') OR " +
-           "CAST(p.payAt AS string) LIKE CONCAT('%', :searchTerm, '%') OR " +
-           "LOWER(p.customer.firstName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
-           "LOWER(p.customer.lastName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
-           "LOWER(p.court.name) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
+            "CAST(p.id AS string) LIKE CONCAT('%', :searchTerm, '%') OR " +
+            "CAST(p.finalPrice AS string) LIKE CONCAT('%', :searchTerm, '%') OR " +
+            "CAST(p.payAt AS string) LIKE CONCAT('%', :searchTerm, '%')")
     List<Payment> searchPayments(@Param("searchTerm") String searchTerm);
 }

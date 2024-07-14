@@ -4,11 +4,11 @@ import hsf.HSF301_BigAssignment.pojo.Cart;
 import java.util.List;
 
 public interface CartService {
-    void addToCart(Integer userId, Integer courtId);
+    void addToCart(Long userId, Long courtId);
 
-    void markAsPaid(Integer cartId);
+    Boolean checkCartPaid(Long customerId);
 
-    Boolean checkCartPaid(Integer customerId);
+    List<Cart> viewCart(Long customerId);
 
-    List<Cart> viewCart(Integer customerId);
+    Cart findById(Long cartId);
 }
