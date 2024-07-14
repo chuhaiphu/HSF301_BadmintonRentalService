@@ -15,7 +15,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         HttpSession session = request.getSession();
         if (requestURI.startsWith("/api/v1/payment") ||
                 requestURI.startsWith("/api/v1/cart")) {
-            if (session.getAttribute("admin") == null || session.getAttribute("customer") == null) {
+            if (session.getAttribute("admin") == null && session.getAttribute("customer") == null) {
                 response.sendRedirect("/login");
                 return false;
             }
