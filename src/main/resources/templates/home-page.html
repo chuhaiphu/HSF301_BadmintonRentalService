@@ -27,13 +27,12 @@
             <img th:src="@{/icon/user.jpg}" alt="Customer Image" class="profile-image" onclick="toggleDropdown()">
             <div id="dropdownBanner" class="dropdown-banner">
                 <p>Welcome, <span th:text="${customer.username}">Customer Name</span></p>
-                <a th:href="@{/view-cart}" class="logout">View Cart</a>
                 <a th:href="@{/profile}" class="profile">View Profile</a>
                 <a th:href="@{/logout}" class="logout">Logout</a>
             </div>
         </div>
     </div>
-    <a href="#" class="shopping">
+    <a th:href="@{/api/v1/cart/view-cart}" class="shopping">
         <img th:src="@{/icon/cart.jpg}" alt="Cart Image" class="cart-image">
     </a>
 </header>
@@ -67,7 +66,7 @@
                     <p th:text="${court.description}"></p>
                 </div>
             </div>
-            <a th:href="@{/add-cart/{courtId}(courtId=${court.id})}" class="book-now-btn">Book Now</a>
+            <a th:href="@{/api/v1/cart/add-cart/{courtId}(courtId=${court.id})}" class="book-now-btn">Book Now</a>
         </div>
         <div th:if="${courtsSearch == null}" th:each="court : ${courts}" class="court">
             <img th:src="@{${court.image}}" alt="Court Image">
@@ -92,7 +91,7 @@
                     <p th:text="${court.description}"></p>
                 </div>
             </div>
-            <a th:href="@{/add-cart/{courtId}(courtId=${court.id})}" class="book-now-btn">Book Now</a>
+            <a th:href="@{/api/v1/cart/add-cart/{courtId}(courtId=${court.id})}" class="book-now-btn">Book Now</a>
         </div>
     </div>
 
