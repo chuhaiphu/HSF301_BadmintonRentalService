@@ -5,33 +5,37 @@
     <meta name="viewport" content="width=devic
     e-width, initial-scale=1.0">
     <title>Badminton Place Booking</title>
-    <link rel="stylesheet" th:href="@{/css/home.css}"> <!-- Link to your CSS file -->
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <script src="https://cdn.tailwindcss.com"></script> <!-- Link to your CSS file -->
     <script th:src="@{/js/home-page-banner.js}"></script>
 </head>
 <body>
 <header>
+    
     <div class="logo">
         <a th:href="@{/home}" class="logo">
             <img th:src="@{/icon/logo.png}" alt="Logo Image" class="logo-image">
         </a>
     </div>
     <form class="search" th:action="@{/home/search}" method="get">
-        <input type="text" name="query" placeholder="Search courts...">
+        <input type="text" name="query" placeholder="Search courts..." style="background-color: white; color: black;">
         <button type="submit">Search</button>
     </form>
+    
     <div th:if="${customer == null}" class="login">
         <a th:href="@{/login}" class="login">Login</a>
     </div>
     <div th:if="${customer != null}">
         <div class="user-info">
             <img th:src="@{/icon/user.jpg}" alt="Customer Image" class="profile-image" onclick="toggleDropdown()">
-            <div id="dropdownBanner" class="dropdown-banner">
-                <p>Welcome, <span th:text="${customer.username}">Customer Name</span></p>
-                <a th:href="@{/profile}" class="profile">View Profile</a>
-                <a th:href="@{/logout}" class="logout">Logout</a>
+            <div id="dropdownBanner" class="dropdown-banner" style="background-color: white; color: black; border: 1px solid #ccc; padding: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+                <p>Welcome, <span th:text="${customer.username}" style="font-weight: bold;">Customer Name</span></p>
+                <a th:href="@{/home/profile}" class="profile" style="color: blue; display: block; margin-top: 5px;">View Profile</a>
+                <a th:href="@{/logout}" class="logout" style="color: red; display: block; margin-top: 5px;">Logout</a>
             </div>
         </div>
     </div>
+    
     <a th:href="@{/api/v1/cart/view-cart}" class="shopping">
         <img th:src="@{/icon/cart.jpg}" alt="Cart Image" class="cart-image">
     </a>
@@ -96,18 +100,22 @@
     </div>
 
     <div class="recommended">
-        <h3>Recommended Courts</h3>
-        <br>
-        <div th:each="court : ${courts}" class="recommendedCourt">
-            <img th:src="${court.image}" alt="Image 2">
-            <h4 th:text="${court.description}"></h4>
-            <div class="recommendedCourt-detail">
-                <img th:src="@{/icon/address.webp}" alt="Image 1">
-                <p th:text="${court.address}"></p>
+        <h3 class="text-xl font-bold mb-4">Recommended Courts</h3>
+        <div class="space-y-4">
+            <div th:each="court : ${courts}" class="recommendedCourt bg-white rounded-lg shadow-md overflow-hidden flex">
+                <img th:src="${court.image}" alt="Court Image" class="w-1/3 h-48 object-cover">
+                <div class="p-4 flex-1">
+                    <h4 th:text="${court.description}" class="text-lg font-semibold mb-2"></h4>
+                    <div class="recommendedCourt-detail flex items-center">
+                        <img th:src="@{/icon/address.webp}" alt="Address Icon" class="w-5 h-5 mr-2">
+                        <p th:text="${court.address}" class="text-sm text-gray-600"></p>
+                    </div>
+                </div>
             </div>
-            <br>
         </div>
     </div>
+        
+    
 </div>
 
 <!-----------------------footer------------->

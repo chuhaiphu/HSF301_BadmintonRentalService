@@ -1,3 +1,4 @@
+
 package hsf.HSF301_BigAssignment.service;
 
 import hsf.HSF301_BigAssignment.pojo.Cart;
@@ -11,4 +12,7 @@ public interface ICartService {
     List<Cart> viewCart(Long customerId);
 
     Cart findById(Long cartId);
+
+    void deleteCart(Long cartId);
 }
+

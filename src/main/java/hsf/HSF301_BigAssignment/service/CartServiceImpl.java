@@ -9,6 +9,7 @@ import hsf.HSF301_BigAssignment.repo.CourtRepository;
 import hsf.HSF301_BigAssignment.repo.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.time.LocalDateTime;
@@ -42,7 +43,7 @@ public class CartServiceImpl implements ICartService {
 
     @Override
     public Boolean checkCartPaid(Long customerId) {
-      return cartRepository.checkCartByUserId(customerId);
+        return cartRepository.checkCartByUserId(customerId);
     }
 
     @Override
@@ -54,5 +55,10 @@ public class CartServiceImpl implements ICartService {
     @Override
     public Cart findById(Long cartId) {
         return cartRepository.findById(cartId).get();
+    }
+
+    @Override
+    public void deleteCart(Long cartId) {
+        cartRepository.deleteById(cartId);
     }
 }
