@@ -22,7 +22,6 @@ import java.util.List;
 @RequestMapping("/home")
 @RequiredArgsConstructor
 public class HomeController {
-    private final CourtService courtService;
     private final CustomerService customerService;
     private final ICourtService courtService;
     @GetMapping()

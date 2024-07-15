@@ -27,14 +27,6 @@ public class CartController {
     public String addForm(RedirectAttributes redirect, @PathVariable("courtId") Long courtId, HttpSession session){
         Customer customer = (Customer) session.getAttribute("customer");
 
-         if(ICartService.checkCartPaid(customer.getId())){
-             ICartService.addToCart(customer.getId(), courtId);
-             redirect.addFlashAttribute("message", "Add cart success !!!");
-         } else {
-             redirect.addFlashAttribute("warning", "Add cart unsuccessfully please pay your court first !!!");
-         }
-         return "redirect:/home";
-     }
         if(cartService.checkCartPaid(customer.getId())){
             cartService.addToCart(customer.getId(), courtId);
             redirect.addFlashAttribute("message", "Add cart success !!!");
