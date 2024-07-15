@@ -2,7 +2,8 @@ package hsf.HSF301_BigAssignment.controller;
 
 import hsf.HSF301_BigAssignment.pojo.Cart;
 import hsf.HSF301_BigAssignment.pojo.Payment;
-import hsf.HSF301_BigAssignment.service.CartService;
+import hsf.HSF301_BigAssignment.service.ICartService;
+import hsf.HSF301_BigAssignment.service.IPaymentService;
 import hsf.HSF301_BigAssignment.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,15 +22,15 @@ import java.time.LocalDateTime;
 public class PaymentController {
 
     @Autowired
-    private CartService cartService;
+    private ICartService ICartService;
 
     @Autowired
-    private PaymentService paymentService;
+    private IPaymentService paymentService;
 
 
     @GetMapping("/payment-form/{cartId}")
     public String paymentCart(Model model, @PathVariable("cartId") Long cartId){
-        Cart cart = cartService.findById(cartId);
+        Cart cart = ICartService.findById(cartId);
 
         Payment payment = new Payment();
         payment.setCart(cart);

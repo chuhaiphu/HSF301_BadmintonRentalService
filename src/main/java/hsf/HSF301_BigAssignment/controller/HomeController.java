@@ -3,6 +3,7 @@ package hsf.HSF301_BigAssignment.controller;
 import hsf.HSF301_BigAssignment.pojo.Court;
 import hsf.HSF301_BigAssignment.pojo.Customer;
 import hsf.HSF301_BigAssignment.service.CourtService;
+import hsf.HSF301_BigAssignment.service.ICourtService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -17,7 +18,7 @@ import java.util.List;
 @RequestMapping("/home")
 @RequiredArgsConstructor
 public class HomeController {
-    private final CourtService courtService;
+    private final ICourtService courtService;
     @GetMapping()
     public String getHomePage(Model model, HttpSession session) {
         List<Court> courts = courtService.getAllCourts();

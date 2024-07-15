@@ -3,9 +3,7 @@ package hsf.HSF301_BigAssignment.controller;
 import hsf.HSF301_BigAssignment.pojo.Court;
 import hsf.HSF301_BigAssignment.pojo.Customer;
 import hsf.HSF301_BigAssignment.pojo.Payment;
-import hsf.HSF301_BigAssignment.service.CourtService;
-import hsf.HSF301_BigAssignment.service.CustomerService;
-import hsf.HSF301_BigAssignment.service.PaymentService;
+import hsf.HSF301_BigAssignment.service.*;
 import hsf.HSF301_BigAssignment.utils.S3Utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +19,11 @@ import java.util.List;
 public class AdminController {
 
     @Autowired
-    private CustomerService customerService;
+    private ICustomerService customerService;
     @Autowired
-    private CourtService courtService;
+    private ICourtService courtService;
     @Autowired
-    private PaymentService paymentService;
+    private IPaymentService paymentService;
 
     @GetMapping({ "", "/", "/customers" })
     public String showAdminCustomerManagement(@RequestParam(required = false) String search, Model model) {

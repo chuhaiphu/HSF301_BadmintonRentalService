@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 
 
 @Service
-public class CartServiceImpl implements CartService{
+public class CartServiceImpl implements ICartService {
 
     @Autowired
     private CartRepository cartRepository;

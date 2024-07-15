@@ -2,8 +2,8 @@ package hsf.HSF301_BigAssignment.controller;
 
 import hsf.HSF301_BigAssignment.pojo.Admin;
 import hsf.HSF301_BigAssignment.pojo.Customer;
-import hsf.HSF301_BigAssignment.service.CustomerService;
 import hsf.HSF301_BigAssignment.service.IAuthService;
+import hsf.HSF301_BigAssignment.service.ICustomerService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -19,7 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class AuthController {
 
     private final IAuthService authService;
-    private final CustomerService customerService;
+    private final ICustomerService customerService;
 
     @GetMapping("/")
     public String authRedirect(HttpSession session) {

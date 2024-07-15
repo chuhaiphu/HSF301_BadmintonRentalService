@@ -5,8 +5,8 @@ import java.util.List;
 
 import hsf.HSF301_BigAssignment.pojo.Cart;
 import hsf.HSF301_BigAssignment.pojo.Customer;
-import hsf.HSF301_BigAssignment.service.CartService;
-import hsf.HSF301_BigAssignment.service.CourtService;
+import hsf.HSF301_BigAssignment.service.ICartService;
+import hsf.HSF301_BigAssignment.service.ICourtService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,17 +20,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/api/v1/cart")
 public class CartController {
      @Autowired
-    private CartService cartService;
+    private ICartService ICartService;
 
      @Autowired
-     private CourtService courtService;
+     private ICourtService courtService;
 
      @GetMapping("/add-cart/{courtId}")
     public String addForm(RedirectAttributes redirect, @PathVariable("courtId") Long courtId, HttpSession session){
          Customer customer = (Customer) session.getAttribute("customer");
 
-         if(cartService.checkCartPaid(customer.getId())){
-             cartService.addToCart(customer.getId(), courtId);
+         if(ICartService.checkCartPaid(customer.getId())){
+             ICartService.addToCart(customer.getId(), courtId);
              redirect.addFlashAttribute("message", "Add cart success !!!");
          } else {
              redirect.addFlashAttribute("warning", "Add cart unsuccessfully please pay your court first !!!");
@@ -41,7 +41,7 @@ public class CartController {
      @GetMapping("/view-cart")
      public String viewCart(Model model, HttpSession session){
          Customer customer = (Customer) session.getAttribute("customer");
-         List<Cart> carts = cartService.viewCart(customer.getId());
+         List<Cart> carts = ICartService.viewCart(customer.getId());
          model.addAttribute("carts", carts);
          return "cartItem";
      }

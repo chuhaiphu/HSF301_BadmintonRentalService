@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class CourtService {
+public class CourtService implements ICourtService {
 
     @Autowired
     private CourtRepository courtRepository;
