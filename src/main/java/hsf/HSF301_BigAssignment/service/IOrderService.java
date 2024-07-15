@@ -14,4 +14,8 @@ public interface IOrderService {
     public Order saveOrder(Order order);
 
     public void deleteOrder(Long id);
+
+    List<Order> searchOrders(String search);
+
+    void disableOrder(Long id);
 }

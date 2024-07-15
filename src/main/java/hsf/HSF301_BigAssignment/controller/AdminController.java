@@ -2,6 +2,9 @@ package hsf.HSF301_BigAssignment.controller;
 
 import hsf.HSF301_BigAssignment.pojo.Court;
 import hsf.HSF301_BigAssignment.pojo.Customer;
+import hsf.HSF301_BigAssignment.pojo.Order;
+import hsf.HSF301_BigAssignment.pojo.Slot;
+import hsf.HSF301_BigAssignment.repo.SlotRepository;
 import hsf.HSF301_BigAssignment.service.*;
 import hsf.HSF301_BigAssignment.utils.S3Utils;
 
@@ -11,6 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalTime;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -21,8 +26,10 @@ public class AdminController {
     private ICustomerService customerService;
     @Autowired
     private ICourtService courtService;
-//    @Autowired
-//    private IPaymentService paymentService;
+    @Autowired
+    private IOrderService orderService;
+    @Autowired
+    private SlotRepository slotRepository;
 
     @GetMapping({ "", "/", "/customers" })
     public String showAdminCustomerManagement(@RequestParam(required = false) String search, Model model) {
@@ -84,13 +91,26 @@ public class AdminController {
     }
 
     @PostMapping("/addCourt")
-    public String addCourt(@ModelAttribute Court court, @RequestParam(value = "imageFile", required = false) MultipartFile imageFile, Model model) {
+    public String addCourt(@ModelAttribute Court court,
+                           @RequestParam(value = "imageFile", required = false) MultipartFile imageFile, Model model) {
         try {
             if (imageFile != null && !imageFile.isEmpty()) {
                 String imageUrl = S3Utils.uploadFile(imageFile);
                 court.setImage(imageUrl);
             }
+
+            // Create new slots for the court
+            List<Slot> newSlots = Arrays.asList(
+                    new Slot(null, LocalTime.of(8, 0), LocalTime.of(12, 0), true, court),
+                    new Slot(null, LocalTime.of(12, 0), LocalTime.of(16, 0), true, court),
+                    new Slot(null, LocalTime.of(16, 0), LocalTime.of(20, 0), true, court),
+                    new Slot(null, LocalTime.of(20, 0), LocalTime.of(23, 59), true, court)
+            );
+
+            court.setSlots(newSlots);
+
             courtService.save(court);
+
             return "redirect:/admin/courts";
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Error adding court: " + e.getMessage());
@@ -100,7 +120,8 @@ public class AdminController {
 
 
     @PostMapping("/updateCourt")
-    public String updateCourt(@ModelAttribute Court court, @RequestParam("imageFile") MultipartFile imageFile, Model model) {
+    public String updateCourt(@ModelAttribute Court court, @RequestParam("imageFile") MultipartFile imageFile,
+            Model model) {
         try {
             if (!imageFile.isEmpty()) {
                 String imageUrl = S3Utils.uploadFile(imageFile);
@@ -114,64 +135,44 @@ public class AdminController {
         }
     }
 
+    @GetMapping("/deleteCourt/{id}")
+    public String deleteCourt(@PathVariable Long id, Model model) {
+        try {
+            courtService.delete(id);
+            return "redirect:/admin/courts";
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "Error deleting court: " + e.getMessage());
+            return showAdminCourtManagement("", model);
+        }
+    }
 
-//    @GetMapping("/deleteCourt/{id}")
-//    public String deleteCourt(@PathVariable Long id, Model model) {
-//        try {
-//            courtService.deactivateCourt(id);
-//            return "redirect:/admin/courts";
-//        } catch (Exception e) {
-//            model.addAttribute("errorMessage", "Error deactivating court: " + e.getMessage());
-//            return showAdminCourtManagement("", model);
-//        }
-//    }
-    
-//    @GetMapping("/payments")
-//    public String showAdminPaymentManagement(@RequestParam(required = false) String search, Model model) {
-//        List<Payment> paymentList;
-//        if (search != null && !search.isEmpty()) {
-//            paymentList = paymentService.searchPayments(search);
-//        } else {
-//            paymentList = paymentService.findAll();
-//        }
-//        model.addAttribute("customerList", customerService.findAll());
-//
-//        model.addAttribute("courtList", courtService.findAll());
-//        model.addAttribute("paymentList", paymentList);
-//        model.addAttribute("search", search);
-//        return "admin-payment-management";
-//    }
+    @GetMapping("/orders")
+    public String showAdminOrderManagement(@RequestParam(required = false) String search, Model model) {
+        List<Order> orderList;
+        if (search != null && !search.isEmpty()) {
+            orderList = orderService.searchOrders(search);
+        } else {
+            orderList = orderService.getAllOrders();
+        }
+        model.addAttribute("orderList", orderList);
+        model.addAttribute("search", search);
+        return "admin-order-management";
+    }
 
-//    @PostMapping("/addPayment")
-//    public String addPayment(@ModelAttribute Payment payment, Model model) {
-//        try {
-//            paymentService.save(payment);
-//            return "redirect:/admin/payments";
-//        } catch (Exception e) {
-//            model.addAttribute("errorMessage", "Error adding payment: " + e.getMessage());
-//            return showAdminPaymentManagement("", model);
-//        }
-//    }
+    @GetMapping("/order/{id}")
+    @ResponseBody
+    public Order getOrderDetails(@PathVariable Long id) {
+        return orderService.getOrderById(id);
+    }
 
-//    @PostMapping("/updatePayment")
-//    public String updatePayment(@ModelAttribute Payment payment, Model model) {
-//        try {
-//            paymentService.update(payment);
-//            return "redirect:/admin/payments";
-//        } catch (Exception e) {
-//            model.addAttribute("errorMessage", "Error updating payment: " + e.getMessage());
-//            return showAdminPaymentManagement(null, model);
-//        }
-//    }
-//
-//    @GetMapping("/deletePayment/{id}")
-//    public String deletePayment(@PathVariable Long id, Model model) {
-//        try {
-//            paymentService.delete(id);
-//            return "redirect:/admin/payments";
-//        } catch (Exception e) {
-//            model.addAttribute("errorMessage", "Error deleting payment: " + e.getMessage());
-//            return showAdminPaymentManagement("", model);
-//        }
-//    }
+    @GetMapping("/deleteOrder/{id}")
+    public String deleteOrder(@PathVariable Long id, Model model) {
+        try {
+            orderService.disableOrder(id);
+            return "redirect:/admin/orders";
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "Error disabling order: " + e.getMessage());
+            return showAdminOrderManagement("", model);
+        }
+    }
 }

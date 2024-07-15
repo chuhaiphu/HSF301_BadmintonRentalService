@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 @Entity
 @Data
@@ -42,10 +43,11 @@ public class Court {
     @Column(name = "status")
     private Boolean status;
 
-    @OneToMany(mappedBy = "court", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Slot> slots;
+    @OneToMany(mappedBy = "court", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Slot> slots = new ArrayList<>();
 
-
-
-
+    public void addSlot(Slot slot) {
+        slots.add(slot);
+        slot.setCourt(this);
+    }
 }
