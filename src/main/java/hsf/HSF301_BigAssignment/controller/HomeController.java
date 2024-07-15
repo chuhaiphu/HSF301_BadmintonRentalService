@@ -26,7 +26,7 @@ public class HomeController {
     private final ICourtService courtService;
     @GetMapping()
     public String getHomePage(Model model, HttpSession session) {
-        List<Court> activeCourts = courtService.findAllActiveCourts();
+        List<Court> activeCourts = courtService.findAll();
         model.addAttribute("courts", activeCourts);
         Customer customer = (Customer) session.getAttribute("customer");
         if (customer != null) {
