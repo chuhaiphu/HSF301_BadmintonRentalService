@@ -119,16 +119,16 @@ public class AdminController {
 
 
     @GetMapping("/deleteCourt/{id}")
-    public String deleteCourt(@PathVariable Integer id, Model model) {
+    public String deleteCourt(@PathVariable Long id, Model model) {
         try {
-            courtService.delete(id.longValue());
+            courtService.deactivateCourt(id);
             return "redirect:/admin/courts";
         } catch (Exception e) {
-            model.addAttribute("errorMessage", "Error deleting court: " + e.getMessage());
+            model.addAttribute("errorMessage", "Error deactivating court: " + e.getMessage());
             return showAdminCourtManagement("", model);
         }
     }
-
+    
     @GetMapping("/payments")
     public String showAdminPaymentManagement(@RequestParam(required = false) String search, Model model) {
         List<Payment> paymentList;

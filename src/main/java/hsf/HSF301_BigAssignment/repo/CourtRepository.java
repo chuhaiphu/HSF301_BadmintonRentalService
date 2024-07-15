@@ -12,4 +12,8 @@ import java.util.List;
 public interface CourtRepository extends JpaRepository<Court, Long> {
 
     List<Court> findCourtsByName(String name);
+
+    List<Court> findByStatusTrue();
+
+    List<Court> findByStatusTrueAndNameContainingIgnoreCase(String name);
 }

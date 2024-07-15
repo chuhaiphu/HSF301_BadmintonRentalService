@@ -45,8 +45,11 @@ public class CourtService {
         return courtRepository.save(court);
     }
 
-    public void delete(Long id) {
-        courtRepository.deleteById(id);
+    public void deactivateCourt(Long id) {
+        Court court = courtRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Court not found"));
+        court.setStatus(false);
+        courtRepository.save(court);
     }
 
     public List<Court> getAllCourts() {
@@ -72,4 +75,11 @@ public class CourtService {
         return court;
     }
 
+    public List<Court> findAllActiveCourts() {
+        return courtRepository.findByStatusTrue();
+    }
+    
+    public List<Court> searchActiveCourts(String search) {
+        return courtRepository.findByStatusTrueAndNameContainingIgnoreCase(search);
+    }
 }
