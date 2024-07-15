@@ -6,24 +6,25 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "admin")
-public class Admin {
-
+@Table(name = "order_detail")
+public class OrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "order_detail_id")
     private Long id;
 
-    @Column(name = "username", unique = true)
-    private String username;
+    @ManyToOne
+    @JoinColumn(name = "order_id", nullable = false)
+    private Order order;
 
-    @Column(name = "password")
-    private String password;
+    @Column(name = "price")
+    private double price;
 
-
+    @Column(name = "slot_id")
+    private Long slotId;
 }

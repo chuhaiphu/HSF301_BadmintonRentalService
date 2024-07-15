@@ -2,7 +2,6 @@ package hsf.HSF301_BigAssignment.controller;
 
 import hsf.HSF301_BigAssignment.pojo.Court;
 import hsf.HSF301_BigAssignment.pojo.Customer;
-import hsf.HSF301_BigAssignment.pojo.Payment;
 import hsf.HSF301_BigAssignment.service.*;
 import hsf.HSF301_BigAssignment.utils.S3Utils;
 
@@ -22,8 +21,8 @@ public class AdminController {
     private ICustomerService customerService;
     @Autowired
     private ICourtService courtService;
-    @Autowired
-    private IPaymentService paymentService;
+//    @Autowired
+//    private IPaymentService paymentService;
 
     @GetMapping({ "", "/", "/customers" })
     public String showAdminCustomerManagement(@RequestParam(required = false) String search, Model model) {
@@ -116,63 +115,63 @@ public class AdminController {
     }
 
 
-    @GetMapping("/deleteCourt/{id}")
-    public String deleteCourt(@PathVariable Long id, Model model) {
-        try {
-            courtService.deactivateCourt(id);
-            return "redirect:/admin/courts";
-        } catch (Exception e) {
-            model.addAttribute("errorMessage", "Error deactivating court: " + e.getMessage());
-            return showAdminCourtManagement("", model);
-        }
-    }
+//    @GetMapping("/deleteCourt/{id}")
+//    public String deleteCourt(@PathVariable Long id, Model model) {
+//        try {
+//            courtService.deactivateCourt(id);
+//            return "redirect:/admin/courts";
+//        } catch (Exception e) {
+//            model.addAttribute("errorMessage", "Error deactivating court: " + e.getMessage());
+//            return showAdminCourtManagement("", model);
+//        }
+//    }
     
-    @GetMapping("/payments")
-    public String showAdminPaymentManagement(@RequestParam(required = false) String search, Model model) {
-        List<Payment> paymentList;
-        if (search != null && !search.isEmpty()) {
-            paymentList = paymentService.searchPayments(search);
-        } else {
-            paymentList = paymentService.findAll();
-        }
-        model.addAttribute("customerList", customerService.findAll());
+//    @GetMapping("/payments")
+//    public String showAdminPaymentManagement(@RequestParam(required = false) String search, Model model) {
+//        List<Payment> paymentList;
+//        if (search != null && !search.isEmpty()) {
+//            paymentList = paymentService.searchPayments(search);
+//        } else {
+//            paymentList = paymentService.findAll();
+//        }
+//        model.addAttribute("customerList", customerService.findAll());
+//
+//        model.addAttribute("courtList", courtService.findAll());
+//        model.addAttribute("paymentList", paymentList);
+//        model.addAttribute("search", search);
+//        return "admin-payment-management";
+//    }
 
-        model.addAttribute("courtList", courtService.findAll());
-        model.addAttribute("paymentList", paymentList);
-        model.addAttribute("search", search);
-        return "admin-payment-management";
-    }
+//    @PostMapping("/addPayment")
+//    public String addPayment(@ModelAttribute Payment payment, Model model) {
+//        try {
+//            paymentService.save(payment);
+//            return "redirect:/admin/payments";
+//        } catch (Exception e) {
+//            model.addAttribute("errorMessage", "Error adding payment: " + e.getMessage());
+//            return showAdminPaymentManagement("", model);
+//        }
+//    }
 
-    @PostMapping("/addPayment")
-    public String addPayment(@ModelAttribute Payment payment, Model model) {
-        try {
-            paymentService.save(payment);
-            return "redirect:/admin/payments";
-        } catch (Exception e) {
-            model.addAttribute("errorMessage", "Error adding payment: " + e.getMessage());
-            return showAdminPaymentManagement("", model);
-        }
-    }
-
-    @PostMapping("/updatePayment")
-    public String updatePayment(@ModelAttribute Payment payment, Model model) {
-        try {
-            paymentService.update(payment);
-            return "redirect:/admin/payments";
-        } catch (Exception e) {
-            model.addAttribute("errorMessage", "Error updating payment: " + e.getMessage());
-            return showAdminPaymentManagement(null, model);
-        }
-    }
-
-    @GetMapping("/deletePayment/{id}")
-    public String deletePayment(@PathVariable Long id, Model model) {
-        try {
-            paymentService.delete(id);
-            return "redirect:/admin/payments";
-        } catch (Exception e) {
-            model.addAttribute("errorMessage", "Error deleting payment: " + e.getMessage());
-            return showAdminPaymentManagement("", model);
-        }
-    }
+//    @PostMapping("/updatePayment")
+//    public String updatePayment(@ModelAttribute Payment payment, Model model) {
+//        try {
+//            paymentService.update(payment);
+//            return "redirect:/admin/payments";
+//        } catch (Exception e) {
+//            model.addAttribute("errorMessage", "Error updating payment: " + e.getMessage());
+//            return showAdminPaymentManagement(null, model);
+//        }
+//    }
+//
+//    @GetMapping("/deletePayment/{id}")
+//    public String deletePayment(@PathVariable Long id, Model model) {
+//        try {
+//            paymentService.delete(id);
+//            return "redirect:/admin/payments";
+//        } catch (Exception e) {
+//            model.addAttribute("errorMessage", "Error deleting payment: " + e.getMessage());
+//            return showAdminPaymentManagement("", model);
+//        }
+//    }
 }

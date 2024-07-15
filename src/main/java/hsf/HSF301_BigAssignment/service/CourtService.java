@@ -30,8 +30,6 @@ public class CourtService implements ICourtService {
                 court.getName().toLowerCase().contains(lowerSearchTerm) ||
                 court.getAddress().toLowerCase().contains(lowerSearchTerm) ||
                 court.getDescription().toLowerCase().contains(lowerSearchTerm) ||
-                court.getOpenTime().toString().contains(searchTerm) ||
-                court.getCloseTime().toString().contains(searchTerm) ||
                 Boolean.toString(court.getStatus()).contains(searchTerm)
             )
             .collect(Collectors.toList());
@@ -43,6 +41,11 @@ public class CourtService implements ICourtService {
 
     public Court update(Court court) {
         return courtRepository.save(court);
+    }
+
+    @Override
+    public void delete(Long id) {
+
     }
 
     public void deactivateCourt(Long id) {
