@@ -3,6 +3,7 @@ package hsf.HSF301_BigAssignment.service;
 import hsf.HSF301_BigAssignment.pojo.Order;
 import hsf.HSF301_BigAssignment.repo.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,8 +28,8 @@ public class OrderService implements IOrderService{
     }
 
     @Override
-    public void saveOrder(Order order) {
-        orderRepository.save(order);
+    public Order saveOrder(Order order) {
+        return orderRepository.save(order);
     }
 
     @Override

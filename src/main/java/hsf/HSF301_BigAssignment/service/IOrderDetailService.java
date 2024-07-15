@@ -12,7 +12,7 @@ public interface IOrderDetailService {
 
     public OrderDetail getOrderDetailById(Long id);
 
-    public void saveOrderDetail(OrderDetail orderDetail);
+    public OrderDetail saveOrderDetail(OrderDetail orderDetail);
 
     public void deleteOrderDetail(Long id);
 }
