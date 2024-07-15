@@ -26,12 +26,12 @@ public class HomeController {
     private final ICourtService courtService;
     @GetMapping()
     public String getHomePage(Model model, HttpSession session) {
-        List<Court> courts = courtService.getAllCourts();
+        List<Court> activeCourts = courtService.findAllActiveCourts();
+        model.addAttribute("courts", activeCourts);
         Customer customer = (Customer) session.getAttribute("customer");
         if (customer != null) {
             model.addAttribute("customer", customer);
         }
-        model.addAttribute("courts", courts);
         return "home-page";
     }
 

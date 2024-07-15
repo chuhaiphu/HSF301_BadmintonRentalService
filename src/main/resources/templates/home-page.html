@@ -2,163 +2,113 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=devic
-    e-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Badminton Place Booking</title>
-    <link rel="stylesheet" th:href="@{/css/home.css}">
-    <script src="https://cdn.tailwindcss.com"></script> <!-- Link to your CSS file -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script th:src="@{/js/home-page-banner.js}"></script>
 </head>
-<body>
-<header>
-    
-    <div class="logo">
-        <a th:href="@{/home}" class="logo">
-            <img th:src="@{/icon/logo.png}" alt="Logo Image" class="logo-image">
-        </a>
-    </div>
-    <form class="search" th:action="@{/home/search}" method="get">
-        <input type="text" name="query" placeholder="Search courts..." style="background-color: white; color: black;">
-        <button type="submit">Search</button>
-    </form>
-    
-    <div th:if="${customer == null}" class="login">
-        <a th:href="@{/login}" class="login">Login</a>
-    </div>
-    <div th:if="${customer != null}">
-        <div class="user-info">
-            <img th:src="@{/icon/user.jpg}" alt="Customer Image" class="profile-image" onclick="toggleDropdown()">
-            <div id="dropdownBanner" class="dropdown-banner" style="background-color: white; color: black; border: 1px solid #ccc; padding: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
-                <p>Welcome, <span th:text="${customer.username}" style="font-weight: bold;">Customer Name</span></p>
-                <a th:href="@{/home/profile}" class="profile" style="color: blue; display: block; margin-top: 5px;">View Profile</a>
-                <a th:href="@{/logout}" class="logout" style="color: red; display: block; margin-top: 5px;">Logout</a>
+<body class="bg-gray-100 font-sans">
+    <header class="bg-white shadow-md">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <a th:href="@{/home}" class="flex items-center">
+                <img th:src="@{/icon/logo.png}" alt="Logo" class="h-10 w-auto">
+            </a>
+            <form th:action="@{/home/search}" method="get" class="flex-1 mx-4">
+                <input type="text" name="query" placeholder="Search courts..." class="w-full px-4 py-2 rounded-full border focus:outline-none focus:ring-2 focus:ring-blue-300">
+            </form>
+            <div class="flex items-center space-x-4">
+                <div th:if="${customer == null}">
+                    <a th:href="@{/login}" class="text-blue-600 hover:text-blue-800">Login</a>
+                </div>
+                <div th:if="${customer != null}" class="relative">
+                    <img th:src="@{/icon/user.jpg}" alt="Customer" class="h-8 w-8 rounded-full cursor-pointer" onclick="toggleDropdown()">
+                    <div id="dropdownBanner" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
+                        <p class="px-4 py-2 text-sm text-gray-700">Welcome, <span th:text="${customer.username}" class="font-semibold"></span></p>
+                        <a th:href="@{/home/profile}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">View Profile</a>
+                        <a th:href="@{/logout}" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Logout</a>
+                    </div>
+                </div>
+                <a th:href="@{/api/v1/cart/view-cart}" class="text-gray-600 hover:text-gray-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                </a>
             </div>
         </div>
-    </div>
-    
-    <a th:href="@{/api/v1/cart/view-cart}" class="shopping">
-        <img th:src="@{/icon/cart.jpg}" alt="Cart Image" class="cart-image">
-    </a>
-</header>
-<div class="container">
-    <!-- Messages Section -->
+    </header>
 
+    <main class="container mx-auto px-4 py-8">
+        <h2 th:if="${message}" class="text-green-600 text-center mb-4" th:text="${message}"></h2>
+        <h2 th:if="${warning}" class="text-yellow-600 text-center mb-4" th:text="${warning}"></h2>
 
-    <div class="court-container">
-        <h2 th:if="${message}" class="message" th:text="${message}"></h2>
-        <h2 th:if="${warning}" class="warning" th:text="${warning}"></h2>
-        <div th:if="${courtsSearch != null}" th:each="court : ${courtsSearch}" class="court">
-            <img th:src="@{${court.image}}" alt="Court Image">
-            <div class="court-details">
-                <div class="court-header">
-                    <h2 th:text="${court.name}"></h2>
-                </div>
-                <div class="court-info">
-                    <img th:src="@{/icon/address.webp}" alt="Address Image">
-                    <p th:text="${court.address}"></p>
-                </div>
-                <div class="court-info">
-                    <img th:src="@{/icon/phone.jpg}" alt="Phone Image">
-                    <p th:text="'Phone: ' + ${court.phone}"></p>
-                </div>
-                <div class="court-info">
-                    <img th:src="@{/icon/price.png}" alt="Price Image">
-                    <p th:text="'$' + ${court.price} + ' / hour'"></p>
-                </div>
-                <div class="court-info">
-                    <img th:src="@{/icon/description.png}" alt="Description Image">
-                    <p th:text="${court.description}"></p>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div th:each="court : ${courtsSearch != null ? courtsSearch : courts}" class="bg-white rounded-lg shadow-md overflow-hidden">
+                <img th:src="@{${court.image}}" alt="Court Image" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <h2 th:text="${court.name}" class="text-xl font-semibold mb-2"></h2>
+                    <div class="space-y-2">
+                        <p class="flex items-center text-gray-600"><svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg><span th:text="${court.address}"></span></p>
+                        <p class="flex items-center text-gray-600"><svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg><span th:text="${court.phone}"></span></p>
+                        <p class="flex items-center text-gray-600"><svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg><span th:text="'$' + ${court.price} + ' / hour'"></span></p>
+                    </div>
+                    <p th:text="${court.description}" class="mt-2 text-gray-600"></p>
+                    <a th:href="@{/api/v1/cart/add-cart/{courtId}(courtId=${court.id})}" class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-300">Book Now</a>
                 </div>
             </div>
-            <a th:href="@{/api/v1/cart/add-cart/{courtId}(courtId=${court.id})}" class="book-now-btn">Book Now</a>
         </div>
-        <div th:if="${courtsSearch == null}" th:each="court : ${courts}" class="court">
-            <img th:src="@{${court.image}}" alt="Court Image">
-            <div class="court-details">
-                <div class="court-header">
-                    <h2 th:text="${court.name}"></h2>
-                </div>
-                <div class="court-info">
-                    <img th:src="@{/icon/address.webp}" alt="Address Image">
-                    <p th:text="${court.address}"></p>
-                </div>
-                <div class="court-info">
-                    <img th:src="@{/icon/phone.jpg}" alt="Phone Image">
-                    <p th:text="'Phone: ' + ${court.phone}"></p>
-                </div>
-                <div class="court-info">
-                    <img th:src="@{/icon/price.png}" alt="Price Image">
-                    <p th:text="'$' + ${court.price} + ' / hour'"></p>
-                </div>
-                <div class="court-info">
-                    <img th:src="@{/icon/description.png}" alt="Description Image">
-                    <p th:text="${court.description}"></p>
-                </div>
-            </div>
-            <a th:href="@{/api/v1/cart/add-cart/{courtId}(courtId=${court.id})}" class="book-now-btn">Book Now</a>
-        </div>
-    </div>
 
-    <div class="recommended">
-        <h3 class="text-xl font-bold mb-4">Recommended Courts</h3>
-        <div class="space-y-4">
-            <div th:each="court : ${courts}" class="recommendedCourt bg-white rounded-lg shadow-md overflow-hidden flex">
-                <img th:src="${court.image}" alt="Court Image" class="w-1/3 h-48 object-cover">
-                <div class="p-4 flex-1">
-                    <h4 th:text="${court.description}" class="text-lg font-semibold mb-2"></h4>
-                    <div class="recommendedCourt-detail flex items-center">
-                        <img th:src="@{/icon/address.webp}" alt="Address Icon" class="w-5 h-5 mr-2">
-                        <p th:text="${court.address}" class="text-sm text-gray-600"></p>
+        <div class="mt-12">
+            <h3 class="text-2xl font-bold mb-6">Recommended Courts</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div th:each="court : ${courts}" class="bg-white rounded-lg shadow-md overflow-hidden flex">
+                    <img th:src="${court.image}" alt="Court Image" class="w-1/3 h-48 object-cover">
+                    <div class="p-4 flex-1">
+                        <h4 th:text="${court.name}" class="text-lg font-semibold mb-2"></h4>
+                        <p th:text="${court.description}" class="text-gray-600 mb-2"></p>
+                        <p class="flex items-center text-gray-600"><svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg><span th:text="${court.address}"></span></p>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-        
-    
-</div>
+    </main>
 
-<!-----------------------footer------------->
-<footer>
-    <div class="footer-top">
-        <div class="footer-logo">
-            <img th:src="@{/icon/logo.png}" alt="Logo">
-        </div>
-        <div class="footer-links">
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About Us</a></li>
-                <li><a href="#">Services</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </div>
-        <div class="footer-social">
-            <h3>Follow Us</h3>
-            <div class="social-icons">
-                <a href="#" class="social-icon"><i class="fab fa-facebook-f">
-                    <img th:src="@{/icon/facebook.png}" alt="">
-                </i></a>
-                <a href="#" class="social-icon"><i class="fab fa-twitter">
-                    <img th:src="@{/icon/twitter.png}" alt="">
-                </i></a>
-                <a href="#" class="social-icon"><i class="fab fa-instagram">
-                    <img th:src="@{/icon/insta.webp}" alt="">
-                </i></a>
+    <footer class="bg-gray-800 text-white mt-12">
+        <div class="container mx-auto px-4 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <img th:src="@{/icon/logo.png}" alt="Logo" class="h-10 w-auto mb-4">
+                    <p>&copy; 2024 Badminton Place Booking. All rights reserved.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-gray-300">Home</a></li>
+                        <li><a href="#" class="hover:text-gray-300">About Us</a></li>
+                        <li><a href="#" class="hover:text-gray-300">Services</a></li>
+                        <li><a href="#" class="hover:text-gray-300">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="hover:text-gray-300"><img th:src="@{/icon/facebook.png}" alt="Facebook" class="h-6 w-6"></a>
+                        <a href="#" class="hover:text-gray-300"><img th:src="@{/icon/twitter.png}" alt="Twitter" class="h-6 w-6"></a>
+                        <a href="#" class="hover:text-gray-300"><img th:src="@{/icon/insta.webp}" alt="Instagram" class="h-6 w-6"></a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Contact Us</h3>
+                    <p>Email: info@example.com</p>
+                    <p>Phone: +123 456 7890</p>
+                </div>
             </div>
         </div>
-        <div class="footer-contact">
-            <h3>Contact Us</h3>
-            <p>Email: info@example.com</p>
-            <p>Phone: +123 456 7890</p>
+        <div class="bg-gray-900 py-4">
+            <div class="container mx-auto px-4 text-sm text-gray-400 flex justify-between">
+                <p>Privacy Policy</p>
+                <p>Terms of Service</p>
+            </div>
         </div>
-    </div>
-    <div class="footer-bottom">
-        <p>&copy; 2024 Badminton Place Booking. All rights reserved.</p>
-        <ul>
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Terms of Service</a></li>
-        </ul>
-    </div>
-</footer>
+    </footer>
 </body>
 </html>

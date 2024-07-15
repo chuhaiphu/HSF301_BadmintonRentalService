@@ -52,7 +52,52 @@ function confirmDelete(courtId) {
   return false;
 }
 
-function validateUpdateCourtForm() {
-  // Add your form validation logic here
+function validateCourtForm() {
+  const addButton = document.getElementById('addCourtButton');
+  const addButtonText = document.getElementById('addButtonText');
+  const addButtonLoader = document.getElementById('addButtonLoader');
+
+  addButton.disabled = true;
+  addButtonText.classList.add('hidden');
+  addButtonLoader.classList.remove('hidden');
+
+  // Simulate form submission delay (remove this in production)
+  setTimeout(() => {
+      closeAddCourtModal();
+      addButton.disabled = false;
+      addButtonText.classList.remove('hidden');
+      addButtonLoader.classList.add('hidden');
+  }, 5000);
+
   return true;
+}
+
+function closeAddCourtModal() {
+  document.getElementById('addCourtModal').classList.add('hidden');
+  // Reset the form here if needed
+}
+
+function validateUpdateCourtForm() {
+  const updateButton = document.getElementById('updateCourtButton');
+  const updateButtonText = document.getElementById('updateButtonText');
+  const updateButtonLoader = document.getElementById('updateButtonLoader');
+
+  updateButton.disabled = true;
+  updateButtonText.classList.add('hidden');
+  updateButtonLoader.classList.remove('hidden');
+
+  // Simulate form submission delay (remove this in production)
+  setTimeout(() => {
+      closeUpdateCourtModal();
+      updateButton.disabled = false;
+      updateButtonText.classList.remove('hidden');
+      updateButtonLoader.classList.add('hidden');
+  }, 10000);
+
+  return true;
+}
+
+function closeUpdateCourtModal() {
+  document.getElementById('updateCourtModal').classList.add('hidden');
+  // Reset the form here if needed
 }
