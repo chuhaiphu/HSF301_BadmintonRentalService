@@ -21,7 +21,13 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "customer_id")
     private Long id;
+
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Order> orders;
+
     @Column(name = "username", unique = true)
     private String username;
     @Column(name = "email", unique = true)
@@ -46,6 +52,5 @@ public class Customer {
     @UpdateTimestamp
     private LocalDate updateDate;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Cart> carts;
+
 }

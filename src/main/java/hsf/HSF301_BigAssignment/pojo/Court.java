@@ -18,6 +18,7 @@ public class Court {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "court_id")
     private Long id;
 
     @Column(name = "name")
@@ -41,17 +42,10 @@ public class Court {
     @Column(name = "status")
     private Boolean status;
 
-    @Column(name = "open_time")
-    private LocalTime openTime;
-
-    @Column(name = "close_time")
-    private LocalTime closeTime;
-
-    @ManyToOne
-    @JoinColumn(name = "create_by")
-    private Admin createBy;
-
     @OneToMany(mappedBy = "court", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Cart> carts;
+    private List<Slot> slots;
+
+
+
 
 }
