@@ -29,7 +29,10 @@
                     <td class="py-3 px-6" th:text="${order.court.name}"></td>
                     <td class="py-3 px-6">
                         <ul>
-                            <li th:each="slot : ${order.slots}" th:text="${slot.name}"></li>
+                            <li th:each="slot, iterStat : ${order.slots}">
+                                <span th:text="${slot.startTime + ' - ' + slot.endTime}"></span>
+                                <span th:if="${!iterStat.last}">, </span>
+                            </li>
                         </ul>
                     </td>
                     <td class="py-3 px-6" th:text="${order.bookDate}"></td>
