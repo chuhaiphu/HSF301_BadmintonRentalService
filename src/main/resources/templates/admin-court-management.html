@@ -33,9 +33,9 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a th:href="@{/admin/payments}"
+                                    <a th:href="@{/admin/orders}"
                                         class='block rounded-md py-2 pr-2 pl-10 text-[1vw] leading-6 font-semibold text-indigo-900 hover:bg-gray-200'>
-                                        Payment Management Tab
+                                        Order Histories
                                     </a>
                                 </li>
                             </ul>
@@ -117,14 +117,6 @@
                                             </th>
                                             <th scope="col"
                                                 class="px-3 py-3.5 text-left text-sm font-bold text-gray-900">
-                                                OPEN TIME
-                                            </th>
-                                            <th scope="col"
-                                                class="px-3 py-3.5 text-left text-sm font-bold text-gray-900">
-                                                CLOSE TIME
-                                            </th>
-                                            <th scope="col"
-                                                class="px-3 py-3.5 text-left text-sm font-bold text-gray-900">
                                                 IMAGE
                                             </th>
                                             <th scope="col"
@@ -138,6 +130,9 @@
                                             <th scope="col"
                                                 class="px-3 py-3.5 text-left text-sm font-bold text-gray-900">
                                                 STATUS
+                                            </th>
+                                            <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0">
+                                                <span class="sr-only">View Slots</span>
                                             </th>
                                             <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0">
                                                 <span class="sr-only">Edit</span>
@@ -155,10 +150,6 @@
                                                 th:text="${court.address}"></td>
                                             <td class="whitespace-nowrap px-3 py-4 text-[1vw] font-medium text-gray-600"
                                                 th:text="${court.description}"></td>
-                                            <td class="whitespace-nowrap px-3 py-4 text-[1vw] font-medium text-gray-600"
-                                                th:text="${court.openTime}"></td>
-                                            <td class="whitespace-nowrap px-3 py-4 text-[1vw] font-medium text-gray-600"
-                                                th:text="${court.closeTime}"></td>
                                             <td
                                                 class="whitespace-nowrap px-3 py-4 text-[1vw] font-medium text-gray-600">
                                                 <img th:src="${court.image}" alt="Court Image"
@@ -168,7 +159,6 @@
                                                 th:text="${court.phone}"></td>
                                             <td class="whitespace-nowrap px-3 py-4 text-[1vw] font-medium text-gray-600"
                                                 th:text="${court.price}"></td>
-
                                             <td
                                                 class="whitespace-nowrap px-2 py-4 text-[1vw] font-medium text-gray-600">
                                                 <span th:if="${court.status}" th:text="Available"
@@ -178,18 +168,18 @@
                                                     class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-sm font-medium text-red-700">
                                                 </span>
                                             </td>
+                                            <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-[1.1vw] font-medium sm:pr-0">
+                                                <a href="#" th:onclick="'showSlotDetails(\'' + ${court.id} + '\')'" class="text-indigo-600 hover:text-indigo-900">View Slots</a>
+                                            </td>
                                             <td
                                                 class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-[1.1vw] font-medium sm:pr-0">
                                                 <a href="#" th:data-court-id="${court.id}"
                                                     th:data-court-name="${court.name}"
                                                     th:data-address="${court.address}"
                                                     th:data-description="${court.description}"
-                                                    th:data-open-time="${court.openTime}"
-                                                    th:data-close-time="${court.closeTime}"
                                                     th:data-status="${court.status}" th:data-phone="${court.phone}"
                                                     th:data-price="${court.price}" onclick="openUpdateCourtModal(this)"
                                                     class="text-indigo-600 hover:text-indigo-900">Edit</a>
-
                                             </td>
                                             <td
                                                 class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-[1.1vw] font-medium sm:pr-0">
@@ -232,18 +222,6 @@
                                 <textarea id="description" name="description"
                                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                                     required></textarea>
-                            </div>
-                            <div class="mb-4">
-                                <label for="openTime" class="block text-gray-700 font-bold mb-2">Open Time</label>
-                                <input type="time" id="openTime" name="openTime"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                                    required>
-                            </div>
-                            <div class="mb-4">
-                                <label for="closeTime" class="block text-gray-700 font-bold mb-2">Close Time</label>
-                                <input type="time" id="closeTime" name="closeTime"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                                    required>
                             </div>
                             <div class="mb-4">
                                 <label for="imageFile" class="block text-gray-700 font-bold mb-2">Court Image</label>
@@ -347,19 +325,6 @@
                                     required></textarea>
                             </div>
                             <div class="mb-4">
-                                <label for="openTimeUpdate" class="block text-gray-700 font-bold mb-2">Open Time</label>
-                                <input type="time" id="openTimeUpdate" name="openTime"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                                    required>
-                            </div>
-                            <div class="mb-4">
-                                <label for="closeTimeUpdate" class="block text-gray-700 font-bold mb-2">Close
-                                    Time</label>
-                                <input type="time" id="closeTimeUpdate" name="closeTime"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                                    required>
-                            </div>
-                            <div class="mb-4">
                                 <label for="statusUpdate" class="block text-gray-700 font-bold mb-2">Status</label>
                                 <select id="statusUpdate" name="status"
                                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
@@ -395,6 +360,39 @@
         </div>
     </div>
 
+    <div id="slotDetailsModal" class="fixed z-10 inset-0 overflow-y-auto hidden" th:each="court : ${courtList}">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+            <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6">
+                    <h3 class="text-lg leading-6 font-semibold text-gray-900 mb-4" th:text="${'Slot Details for ' + court.name}"></h3>
+                    <div class="space-y-4">
+                        <div th:each="slot : ${court.slots}" class="bg-gray-50 p-4 rounded-lg">
+                            <p class="text-sm text-gray-600" th:text="${'Start Time: ' + slot.startTime}"></p>
+                            <p class="text-sm text-gray-600" th:text="${'End Time: ' + slot.endTime}"></p>
+                            <p class="mt-2">
+                                <span class="text-sm font-medium" th:text="'Status: '"></span>
+                                <span th:if="${slot.status}" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                    Available
+                                </span>
+                                <span th:unless="${slot.status}" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                    Unavailable
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button type="button" 
+                        class="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
+                        onclick="closeSlotDetailsModal()">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 
     <script th:if="${errorMessage}">
         Swal.fire('Error', [[${ errorMessage }]], 'error');

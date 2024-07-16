@@ -11,8 +11,6 @@ function openUpdateCourtModal(element) {
   var courtName = element.getAttribute('data-court-name');
   var address = element.getAttribute('data-address');
   var description = element.getAttribute('data-description');
-  var openTime = element.getAttribute('data-open-time');
-  var closeTime = element.getAttribute('data-close-time');
   var status = element.getAttribute('data-status');
   var phone = element.getAttribute('data-phone');
   var price = element.getAttribute('data-price');
@@ -21,14 +19,11 @@ function openUpdateCourtModal(element) {
   document.getElementById('courtNameUpdate').value = courtName;
   document.getElementById('addressUpdate').value = address;
   document.getElementById('descriptionUpdate').value = description;
-  document.getElementById('openTimeUpdate').value = openTime;
-  document.getElementById('closeTimeUpdate').value = closeTime;
   document.getElementById('statusUpdate').value = status;
   document.getElementById('phoneUpdate').value = phone;
   document.getElementById('priceUpdate').value = price;
   document.getElementById('updateCourtModal').classList.remove('hidden');
 }
-
 
 function closeUpdateCourtModal() {
   document.getElementById('updateCourtModal').classList.add('hidden');
@@ -67,37 +62,92 @@ function validateCourtForm() {
       addButton.disabled = false;
       addButtonText.classList.remove('hidden');
       addButtonLoader.classList.add('hidden');
-  }, 5000);
+  }, 2000);
 
   return true;
 }
 
-function closeAddCourtModal() {
-  document.getElementById('addCourtModal').classList.add('hidden');
-  // Reset the form here if needed
+function validateCourtForm() {
+  const courtName = document.getElementById("courtName").value;
+  const address = document.getElementById("address").value;
+  const description = document.getElementById("description").value;
+  const phone = document.getElementById("phone").value;
+  const price = document.getElementById("price").value;
+  const status = document.getElementById("status").value;
+
+  if (courtName === "" || address === "" || description === "" || phone === "" || price === "" || status === "") {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Please fill in all required fields!',
+    });
+    return false;
+  }
+
+  if (isNaN(price) || parseFloat(price) <= 0) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Invalid Price',
+      text: 'Please enter a valid positive number for the price.',
+    });
+    return false;
+  }
+
+  if (!/^\d{10}$/.test(phone)) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Invalid Phone Number',
+      text: 'Please enter a valid 10-digit phone number.',
+    });
+    return false;
+  }
+
+  return true;
 }
 
 function validateUpdateCourtForm() {
-  const updateButton = document.getElementById('updateCourtButton');
-  const updateButtonText = document.getElementById('updateButtonText');
-  const updateButtonLoader = document.getElementById('updateButtonLoader');
+  const courtName = document.getElementById("courtNameUpdate").value;
+  const address = document.getElementById("addressUpdate").value;
+  const description = document.getElementById("descriptionUpdate").value;
+  const phone = document.getElementById("phoneUpdate").value;
+  const price = document.getElementById("priceUpdate").value;
+  const status = document.getElementById("statusUpdate").value;
 
-  updateButton.disabled = true;
-  updateButtonText.classList.add('hidden');
-  updateButtonLoader.classList.remove('hidden');
+  if (courtName === "" || address === "" || description === "" || phone === "" || price === "" || status === "") {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Please fill in all required fields!',
+    });
+    return false;
+  }
 
-  // Simulate form submission delay (remove this in production)
-  setTimeout(() => {
-      closeUpdateCourtModal();
-      updateButton.disabled = false;
-      updateButtonText.classList.remove('hidden');
-      updateButtonLoader.classList.add('hidden');
-  }, 10000);
+  if (isNaN(price) || parseFloat(price) <= 0) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Invalid Price',
+      text: 'Please enter a valid positive number for the price.',
+    });
+    return false;
+  }
+
+  if (!/^\d{10}$/.test(phone)) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Invalid Phone Number',
+      text: 'Please enter a valid 10-digit phone number.',
+    });
+    return false;
+  }
 
   return true;
 }
 
-function closeUpdateCourtModal() {
-  document.getElementById('updateCourtModal').classList.add('hidden');
-  // Reset the form here if needed
+
+function showSlotDetails(courtId) {
+  document.getElementById('slotDetailsModal').classList.remove('hidden');
+}
+
+function closeSlotDetailsModal() {
+  document.getElementById('slotDetailsModal').classList.add('hidden');
 }

@@ -8,4 +8,6 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
     List<Order> findAllByCustomer_Id(Long id);
+    List<Order> findByCustomer_FirstNameContainingIgnoreCaseOrCustomer_LastNameContainingIgnoreCaseOrCourt_NameContainingIgnoreCase(String firstName, String lastName, String courtName);
+
 }

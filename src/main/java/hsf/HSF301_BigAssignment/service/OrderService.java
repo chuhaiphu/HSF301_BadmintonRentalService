@@ -36,4 +36,17 @@ public class OrderService implements IOrderService{
     public void deleteOrder(Long id) {
         orderRepository.deleteById(id);
     }
+
+    @Override
+    public List<Order> searchOrders(String search) {
+        return orderRepository.findByCustomer_FirstNameContainingIgnoreCaseOrCustomer_LastNameContainingIgnoreCaseOrCourt_NameContainingIgnoreCase(search, search, search);
+    }
+
+    @Override
+    public void disableOrder(Long id) {
+        Order order = orderRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Order not found"));
+        order.setStatus(false);
+        orderRepository.save(order);
+    }
 }
