@@ -3,7 +3,9 @@ package hsf.HSF301_BigAssignment.controller;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import hsf.HSF301_BigAssignment.pojo.*;
 import hsf.HSF301_BigAssignment.service.ICourtService;
@@ -14,6 +16,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -32,39 +35,76 @@ public class OrderController {
      @Autowired
      private IOrderDetailService orderDetailService;
 
+    @GetMapping("/showOrderPage/{courtId}")
+    public String createOrder(@PathVariable(name = "courtId") Long courtId, Model model, HttpSession session) {
+        // Fetch court and available slots
+        Court court = courtService.findById(courtId);
+        OrderDTO orderDTO = new OrderDTO();
+        orderDTO.setCustomer((Customer) session.getAttribute("customer"));
+        orderDTO.setCourt(court);
+        orderDTO.setSlots(court.getSlots().stream().filter(Slot::isStatus).toList());
+        model.addAttribute("court", court);
+        model.addAttribute("order", orderDTO);
+        return "order-confirmation";
+    }
 
-    @GetMapping("/add-order/{courtId}")
-    public String addForm(RedirectAttributes redirect, @PathVariable("courtId") Long courtId, @ModelAttribute("listSlot") List<Long> listSlotId, @PathVariable("bookedDate")LocalDate bookedDate, HttpSession session){
+    @PostMapping("/add-order")
+    public String addForm(@ModelAttribute("order") OrderDTO orderDTO,
+                          RedirectAttributes redirect,
+                          HttpSession session) {
         try {
+            // Check if the selected slots are continuous
+            if (!orderService.areSlotsContinuous(orderDTO.getSlots().stream().map(Slot::getId).toList())) {
+                redirect.addFlashAttribute("warning", "Slots must be continuous");
+                return "redirect:/order/showOrderPage/" + orderDTO.getCourt().getId();
+            }
+            if (orderDTO.getBookDate().isBefore(LocalDate.now())) {
+                redirect.addFlashAttribute("warning", "Invalid book date");
+                return "redirect:/order/showOrderPage/" + orderDTO.getCourt().getId();
+            }
+            List<Order> orders = orderService.getByCourtId(orderDTO.getCourt().getId());
+            if (!orders.isEmpty()) {
+                LocalDate bookDate = orderDTO.getBookDate();
+                boolean slotConflict = orders.stream()
+                        .filter(order -> order.getBookDate().equals(bookDate)) // Check for matching bookDate
+                        .flatMap(order -> order.getOrderDetails().stream()) // Get OrderDetails for the order
+                        .anyMatch(orderDetail -> orderDTO.getSlots().stream()
+                                .anyMatch(slot -> slot.getId().equals(orderDetail.getSlotId()))); // Check for slotId match
+
+                if (slotConflict) {
+                    redirect.addFlashAttribute("warning", "Slots are not available");
+                    return "redirect:/order/showOrderPage/" + orderDTO.getCourt().getId();
+                }
+            }
+
+            // Get customer from session
             Customer customer = (Customer) session.getAttribute("customer");
-            Court court = courtService.findById(courtId);
-            List<Slot> slots = new ArrayList<>();
-            for(Long slotId : listSlotId){
-                Slot slot = slotService.getSlotById(slotId);
-                slots.add(slot);
-            }
-            List<OrderDetail> orderDetails = new ArrayList<>();
-            for(Slot slot : slots){
-                OrderDetail orderDetail = OrderDetail.builder()
-                        .price(court.getPrice())
-                        .slotId(slot.getId())
-                        .build();
-                orderDetails.add(orderDetailService.saveOrderDetail(orderDetail));
-            }
+            Court court = courtService.findById(orderDTO.getCourt().getId());
+
+            // Create the order first
             Order order = new Order();
             order.setCustomer(customer);
             order.setCourt(court);
-            order.setOrderDetails(orderDetails);
-            order.setTotalPrice(court.getPrice() * orderDetails.size());
+            order.setTotalPrice(court.getPrice() * orderDTO.getSlots().size());
             order.setStatus(true);
-            order.setBookDate(bookedDate);
-            orderService.saveOrder(order);
-            for(Slot slot : slots){
-                slot.setStatus(false);
-                slotService.saveSlot(slot);
+            order.setBookDate(orderDTO.getBookDate());
+            orderService.saveOrder(order); // Save the order to get an ID
+
+            for (Slot slot : orderDTO.getSlots()) {
+                OrderDetail orderDetail = new OrderDetail();
+                orderDetail.setPrice(court.getPrice());
+                orderDetail.setSlotId(slot.getId());
+                orderDetail.setOrder(order);
+                orderDetailService.saveOrderDetail(orderDetail);
             }
+//
+//            // Update slot statuses
+//            for (Slot slot : orderDTO.getSlots()) {
+//                slot.setStatus(false);
+//                slotService.saveSlot(slot);
+//            }
         } catch (Exception e) {
-            redirect.addFlashAttribute("warning", "There are something wrong !");
+            redirect.addFlashAttribute("warning", e.getMessage());
         }
         return "redirect:/home";
     }
@@ -72,7 +112,8 @@ public class OrderController {
     @GetMapping("/view-order")
     public String viewOrder(Model model, HttpSession session){
         Customer customer = (Customer) session.getAttribute("customer");
-        List<Order> orders = orderService.getByUserId(customer.getId());
+        List<Order> orders = orderService.getByUserId(customer.getId())
+                .stream().filter(Order::getStatus).toList();
         List<OrderDTO> orderDTOS = orders.stream().map(order -> {
             List<Slot> slots = order.getOrderDetails()
                     .stream()
@@ -94,10 +135,16 @@ public class OrderController {
     }
 
 
-    @GetMapping("/delete-order")
-    public String deleteOrder(RedirectAttributes redirect, @RequestParam("orderId") Long orderId){
+    @GetMapping("/cancel/{orderId}")
+    public String deleteOrder(RedirectAttributes redirect, @PathVariable("orderId") Long orderId, HttpSession session) {
         if(orderId != null) {
+            Customer customer = (Customer) session.getAttribute("customer");
             Order order = orderService.getOrderById(orderId);
+            if (customer != null) {
+                if (Objects.equals(order.getCustomer().getId(), customer.getId())) {
+                    redirect.addFlashAttribute("warning", "Not Permitted!");
+                }
+            }
             order.setStatus(false);
             orderService.saveOrder(order);
             for (OrderDetail orderDetail: order.getOrderDetails()) {
@@ -109,6 +156,6 @@ public class OrderController {
         } else {
             redirect.addFlashAttribute("warning", "There are something wrong !");
         }
-        return "redirect:/api/v1/order/view-order";
+        return "redirect:/order/view-order";
     }
 }
