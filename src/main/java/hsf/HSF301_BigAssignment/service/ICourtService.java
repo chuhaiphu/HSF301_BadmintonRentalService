@@ -16,6 +16,8 @@ public interface ICourtService {
 
     void delete(Long id);
 
+    void deactivateCourt(Long id);
+
     List<Court> getAllCourts();
 
     List<Court> getCourtsByName(String name);

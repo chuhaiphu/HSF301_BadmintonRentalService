@@ -64,35 +64,39 @@ public class HomeController {
                                 @RequestParam String newPassword,
                                 @RequestParam String confirmNewPassword,
                                 HttpSession session,
-                                RedirectAttributes redirectAttributes) {
+                                Model model) {
         Customer currentCustomer = (Customer) session.getAttribute("customer");
         if (currentCustomer != null) {
-            if (!oldPassword.equals(currentCustomer.getPassword())) {
-                redirectAttributes.addFlashAttribute("error", "Incorrect old password");
-                return "redirect:/home/profile";
+            try {
+                if (!customerService.validatePassword(currentCustomer, oldPassword)) {
+                    model.addAttribute("updateStatus", "incorrectPassword");
+                    return "profile-page";
+                }
+    
+                if (!newPassword.isEmpty() && !newPassword.equals(confirmNewPassword)) {
+                    model.addAttribute("updateStatus", "passwordMismatch");
+                    return "profile-page";
+                }
+    
+                // Update customer information
+                currentCustomer.setFirstName(updatedCustomer.getFirstName());
+                currentCustomer.setLastName(updatedCustomer.getLastName());
+                currentCustomer.setGender(updatedCustomer.getGender());
+                currentCustomer.setDob(updatedCustomer.getDob());
+    
+                // Update password if a new one is provided
+                if (!newPassword.isEmpty()) {
+                    customerService.updatePassword(currentCustomer, newPassword);
+                }
+    
+                customerService.updateProfile(currentCustomer);
+                session.setAttribute("customer", currentCustomer);
+                model.addAttribute("updateStatus", "success");
+            } catch (Exception e) {
+                model.addAttribute("updateStatus", "failure");
             }
-
-            if (!newPassword.isEmpty() && !newPassword.equals(confirmNewPassword)) {
-                redirectAttributes.addFlashAttribute("error", "New passwords do not match");
-                return "redirect:/home/profile";
-            }
-
-            // Update customer information
-            currentCustomer.setUsername(updatedCustomer.getUsername());
-            currentCustomer.setFirstName(updatedCustomer.getFirstName());
-            currentCustomer.setLastName(updatedCustomer.getLastName());
-            currentCustomer.setGender(updatedCustomer.getGender());
-            currentCustomer.setDob(updatedCustomer.getDob());
-
-            // Update password if a new one is provided
-            if (!newPassword.isEmpty()) {
-                currentCustomer.setPassword(newPassword);
-            }
-
-            customerService.update(currentCustomer);
-            session.setAttribute("customer", currentCustomer);
-            redirectAttributes.addFlashAttribute("success", "Profile updated successfully");
         }
-        return "redirect:/home/profile";
-    }
+        return "profile-page";
+    }    
+
 }

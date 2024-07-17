@@ -15,7 +15,7 @@ public class CourtService implements ICourtService {
     private CourtRepository courtRepository;
 
     public List<Court> findAll() {
-        return courtRepository.findAll();
+        return courtRepository.findByStatusTrue();
     }
 
     public List<Court> searchCourts(String searchTerm) {
@@ -48,6 +48,7 @@ public class CourtService implements ICourtService {
 
     }
 
+    @Override
     public void deactivateCourt(Long id) {
         Court court = courtRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Court not found"));

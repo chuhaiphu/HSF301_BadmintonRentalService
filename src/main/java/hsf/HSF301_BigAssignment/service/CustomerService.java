@@ -39,4 +39,18 @@ public class CustomerService implements ICustomerService {
     public Optional<Customer> findById(Long id) {
         return customerRepo.findById(id);
     }
+
+    public boolean validatePassword(Customer customer, String oldPassword) {
+        return customer.getPassword().equals(oldPassword);
+    }
+
+    public void updatePassword(Customer customer, String newPassword) {
+        customer.setPassword(newPassword);
+        customerRepo.save(customer);
+    }
+
+    public void updateProfile(Customer customer) {
+        customerRepo.save(customer);
+    }
+
 }
