@@ -13,8 +13,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
        String requestURI = request.getRequestURI();
        HttpSession session = request.getSession();
-       if (requestURI.startsWith("/api/v1/payment") ||
-               requestURI.startsWith("/api/v1/cart")) {
+       if (requestURI.startsWith("/order")) {
            if (session.getAttribute("admin") == null && session.getAttribute("customer") == null) {
                response.sendRedirect("/login");
                return false;

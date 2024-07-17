@@ -1,6 +1,7 @@
 package hsf.HSF301_BigAssignment.service;
 
 import hsf.HSF301_BigAssignment.pojo.Order;
+import hsf.HSF301_BigAssignment.pojo.OrderDTO;
 
 import java.util.List;
 
@@ -18,4 +19,12 @@ public interface IOrderService {
     List<Order> searchOrders(String search);
 
     void disableOrder(Long id);
+
+    boolean areSlotsContinuous(List<Long> selectedSlotIds);
+
+    double calculateTotalPrice(List<Long> selectedSlotIds);
+
+    void createOrder(OrderDTO orderDTO);
+
+    List<Order> getByCourtId(Long courtId);
 }

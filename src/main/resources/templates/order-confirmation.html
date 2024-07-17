@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Order</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+
+<div class="container mx-auto p-4">
+    <div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg">
+        <h2 th:if="${message}" class="text-green-600 text-center mb-4" th:text="${message}"></h2>
+        <h2 th:if="${warning}" class="text-yellow-600 text-center mb-4" th:text="${warning}"></h2>
+        <h2 class="text-2xl font-bold mb-4">Create Order</h2>
+        <!-- Form for creating an order -->
+        <form th:action="@{/order/add-order}" th:object="${order}" method="post">
+            <input type="hidden" th:field="*{court.id}" />
+            <div>
+                <label>Court Name:</label>
+                <span th:text="${court.name}"></span> <!-- Displaying the court name -->
+            </div>
+            <div>
+                <label for="bookDate">Book Date:</label>
+                <input type="date" id="bookDate" name="bookDate" th:value="${order.bookDate}" required />
+            </div>
+            <div>
+                <label>Select Slots:</label>
+                <div th:each="slot : ${order.slots}">
+                    <input type="checkbox" th:id="'slot_' + ${slot.id}" th:field="*{slots}" th:value="${slot.id}" name="listSlot" />
+                    <label th:for="'slot_' + ${slot.id}" th:text="${slot.startTime} + ' - ' + ${slot.endTime}"></label><br />
+                </div>
+            </div>
+
+            <button type="submit" class="bg-blue-500 text-white p-2 rounded">Create Order</button>
+        </form>
+
+
+        <!-- Link to go back to home page -->
+        <a th:href="@{/home}" class="block mt-4 w-full bg-gray-500 text-white text-center font-bold py-2 px-4 rounded hover:bg-gray-700 transition duration-200">
+            Back to Home
+        </a>
+    </div>
+</div>
+
+</body>
+</html>

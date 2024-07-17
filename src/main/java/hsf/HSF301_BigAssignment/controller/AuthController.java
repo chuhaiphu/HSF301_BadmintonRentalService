@@ -26,7 +26,7 @@ public class AuthController {
         Admin admin = (Admin) session.getAttribute("admin");
         Customer customer = (Customer) session.getAttribute("customer");
         if (customer == null && admin == null) {
-            return "redirect:/login";
+            return "redirect:/home";
         }
         else if (admin != null) {
             return "redirect:/admin";

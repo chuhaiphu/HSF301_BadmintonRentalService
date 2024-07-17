@@ -30,4 +30,11 @@ public class Slot {
     @ManyToOne
     @JoinColumn(name = "court_id")
     private Court court;
+
+    @Override
+    public String toString() {
+        return "Slot{" +
+                "id=" + id +
+                '}';
+    }
 }

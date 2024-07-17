@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Order History</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 p-10">
+<div class="container mx-auto">
+    <h1 class="text-3xl font-bold mb-6 text-center">Order History</h1>
+    <div class="mb-4">
+        <a class="inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200" th:href="@{/home}">Back to Home</a>
+    </div>
+    <div class="overflow-x-auto">
+        <h2 class="text-center mb-4 text-green-500" th:text="${message}"></h2>
+        <h2 class="text-center mb-4 text-green-500" th:text="${warning}"></h2>
+        <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+            <thead>
+            <tr class="bg-gray-800 text-white">
+                <th class="py-3 px-6 text-left">Customer Name</th>
+                <th class="py-3 px-6 text-left">Court</th>
+                <th class="py-3 px-6 text-left">Book Date</th>
+                <th class="py-3 px-6 text-left">Slots</th>
+                <th class="py-3 px-6 text-left">Cancel</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr th:each="order : ${orders}" class="border-b border-gray-200">
+                    <td class="py-3 px-6" th:text="${order.customer.firstName}"></td>
+                    <td class="py-3 px-6" th:text="${order.court.name}"></td>
+                    <td class="py-3 px-6" th:text="${order.bookDate}"></td>
+                    <td class="py-3 px-6">
+                        <ul>
+                            <li th:each="slot, iterStat : ${order.slots}">
+                                <span th:text="${slot.startTime + ' - ' + slot.endTime}"></span>
+                                <span th:if="${!iterStat.last}">, </span>
+                            </li>
+                        </ul>
+                    </td>
+                    <td class="py-3 px-6">
+                        <a class="text-red-500 hover:underline" th:href="@{'/order/cancel/' + ${order.id}}">Cancel</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
