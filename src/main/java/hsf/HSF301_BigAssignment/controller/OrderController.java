@@ -2,10 +2,8 @@ package hsf.HSF301_BigAssignment.controller;
 
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.time.LocalTime;
+import java.util.*;
 
 import hsf.HSF301_BigAssignment.pojo.*;
 import hsf.HSF301_BigAssignment.service.ICourtService;
@@ -16,7 +14,6 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -53,14 +50,26 @@ public class OrderController {
                           RedirectAttributes redirect,
                           HttpSession session) {
         try {
+            List<Slot> slots = orderDTO.getSlots();
             // Check if the selected slots are continuous
-            if (!orderService.areSlotsContinuous(orderDTO.getSlots().stream().map(Slot::getId).toList())) {
+            if (slots == null || slots.isEmpty()) {
+                redirect.addFlashAttribute("warning", "Invalid slot");
+                return "redirect:/order/showOrderPage/" + orderDTO.getCourt().getId();
+            }
+            if (!orderService.areSlotsContinuous(slots.stream().map(Slot::getId).toList())) {
                 redirect.addFlashAttribute("warning", "Slots must be continuous");
                 return "redirect:/order/showOrderPage/" + orderDTO.getCourt().getId();
             }
             if (orderDTO.getBookDate().isBefore(LocalDate.now())) {
                 redirect.addFlashAttribute("warning", "Invalid book date");
                 return "redirect:/order/showOrderPage/" + orderDTO.getCourt().getId();
+            } else if (orderDTO.getBookDate().equals(LocalDate.now())) {
+                slots.sort(Comparator.comparing(Slot::getStartTime));
+                LocalTime firstSlotStartTime = slots.get(0).getStartTime();
+                if (firstSlotStartTime.isBefore(LocalTime.now())) {
+                    redirect.addFlashAttribute("warning", "Invalid slot");
+                    return "redirect:/order/showOrderPage/" + orderDTO.getCourt().getId();
+                }
             }
             List<Order> orders = orderService.getByCourtId(orderDTO.getCourt().getId());
             if (!orders.isEmpty()) {
@@ -68,7 +77,7 @@ public class OrderController {
                 boolean slotConflict = orders.stream()
                         .filter(order -> order.getBookDate().equals(bookDate)) // Check for matching bookDate
                         .flatMap(order -> order.getOrderDetails().stream()) // Get OrderDetails for the order
-                        .anyMatch(orderDetail -> orderDTO.getSlots().stream()
+                        .anyMatch(orderDetail -> slots.stream()
                                 .anyMatch(slot -> slot.getId().equals(orderDetail.getSlotId()))); // Check for slotId match
 
                 if (slotConflict) {
@@ -85,24 +94,18 @@ public class OrderController {
             Order order = new Order();
             order.setCustomer(customer);
             order.setCourt(court);
-            order.setTotalPrice(court.getPrice() * orderDTO.getSlots().size());
+            order.setTotalPrice(court.getPrice() * slots.size());
             order.setStatus(true);
             order.setBookDate(orderDTO.getBookDate());
             orderService.saveOrder(order); // Save the order to get an ID
 
-            for (Slot slot : orderDTO.getSlots()) {
+            for (Slot slot : slots) {
                 OrderDetail orderDetail = new OrderDetail();
                 orderDetail.setPrice(court.getPrice());
                 orderDetail.setSlotId(slot.getId());
                 orderDetail.setOrder(order);
                 orderDetailService.saveOrderDetail(orderDetail);
             }
-//
-//            // Update slot statuses
-//            for (Slot slot : orderDTO.getSlots()) {
-//                slot.setStatus(false);
-//                slotService.saveSlot(slot);
-//            }
         } catch (Exception e) {
             redirect.addFlashAttribute("warning", e.getMessage());
         }
