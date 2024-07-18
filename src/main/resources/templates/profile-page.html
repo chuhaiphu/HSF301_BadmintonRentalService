@@ -12,89 +12,89 @@
 </head>
 
 <body class="bg-gray-100">
-
+    
     <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-
         <div class="max-w-md w-full space-y-8">
             <div>
-                <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                    Your Profile
-                </h2>
-                <p class="mt-2 text-center text-sm text-gray-600">
-                    Update your information below
-                </p>
+                <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Your Profile</h2>
+                <p class="mt-2 text-center text-sm text-gray-600">Update your information below</p>
             </div>
 
-                <form class="mt-8 space-y-6" th:action="@{/home/profile/update}" method="post"
-                    onsubmit="return validateForm()">
-                    <div class="rounded-md shadow-sm -space-y-px">
-                        <div>
-                            <label for="username" class="sr-only">Username</label>
-                            <input id="username" name="username" type="text" th:value="${customer.username}" readonly
-                                class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                                placeholder="Username">
-                        </div>
-                        <div>
-                            <label for="email" class="sr-only">Email address</label>
-                            <input id="email" name="email" type="email" th:value="${customer.email}" readonly
-                                class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                                placeholder="Email address">
-                        </div>
-                        <div>
-                            <label for="firstName" class="sr-only">First Name</label>
-                            <input id="firstName" name="firstName" type="text" th:value="${customer.firstName}" required
-                                class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                                placeholder="First Name">
-                        </div>
-                        <div>
-                            <label for="lastName" class="sr-only">Last Name</label>
-                            <input id="lastName" name="lastName" type="text" th:value="${customer.lastName}" required
-                                class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                                placeholder="Last Name">
-                        </div>
-                        <div>
-                            <label for="dob" class="sr-only">Date of Birth</label>
-                            <input id="dob" name="dob" type="date" th:value="${customer.dob}" required
-                                class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
-                        </div>
-                        <div>
-                            <label for="gender" class="sr-only">Gender</label>
-                            <select id="gender" name="gender" th:field="${customer.gender}" required
-                                class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
-                                <option value="">Select Gender</option>
-                                <option value="true">Male</option>
-                                <option value="false">Female</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="oldPassword" class="sr-only">Old Password</label>
-                            <input id="oldPassword" name="oldPassword" type="password" required
-                                class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                                placeholder="Old Password">
-                        </div>
-                        <div>
-                            <label for="newPassword" class="sr-only">New Password</label>
-                            <input id="newPassword" name="newPassword" type="password"
-                                class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                                placeholder="New Password">
-                        </div>
-                        <div>
-                            <label for="confirmNewPassword" class="sr-only">Confirm New Password</label>
-                            <input id="confirmNewPassword" name="confirmNewPassword" type="password"
-                                class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                                placeholder="Confirm New Password">
-                        </div>
+            <form class="mt-8 space-y-6" th:action="@{/home/profile/update-info}" method="post" onsubmit="return validateInfoForm()">
+                <div class="rounded-md shadow-sm -space-y-px">
+                    <div class="mb-4">
+                        <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+                        <input id="username" name="username" type="text" th:value="${customer.username}" readonly
+                            class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                     </div>
+                    <div class="mb-4">
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
+                        <input id="email" name="email" type="email" th:value="${customer.email}" readonly
+                            class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    </div>
+                    <div class="mb-4">
+                        <label for="firstName" class="block text-sm font-medium text-gray-700">First Name</label>
+                        <input id="firstName" name="firstName" type="text" th:value="${customer.firstName}" required
+                            class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    </div>
+                    <div class="mb-4">
+                        <label for="lastName" class="block text-sm font-medium text-gray-700">Last Name</label>
+                        <input id="lastName" name="lastName" type="text" th:value="${customer.lastName}" required
+                            class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    </div>
+                    <div class="mb-4">
+                        <label for="dob" class="block text-sm font-medium text-gray-700">Date of Birth</label>
+                        <input id="dob" name="dob" type="date" th:value="${customer.dob}" required
+                            class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    </div>
+                    <div class="mb-4">
+                        <label for="gender" class="block text-sm font-medium text-gray-700">Gender</label>
+                        <select id="gender" name="gender" th:field="${customer.gender}" required
+                            class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option value="">Select Gender</option>
+                            <option value="true">Male</option>
+                            <option value="false">Female</option>
+                        </select>
+                    </div>
+                </div>
 
-                    <div>
-                        <button type="submit"
-                            class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            Update Profile
-                        </button>
+                <div>
+                    <button type="submit"
+                        class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Update Information
+                    </button>
+                </div>
+            </form>
+
+            <form class="mt-8 space-y-6" th:action="@{/home/profile/update-password}" method="post" onsubmit="return validatePasswordForm()">
+                <div class="rounded-md shadow-sm -space-y-px">
+                    <div class="mb-4">
+                        <label for="oldPassword" class="block text-sm font-medium text-gray-700">Old Password</label>
+                        <input id="oldPassword" name="oldPassword" type="password" required
+                            class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                     </div>
-                </form>
+                    <div class="mb-4">
+                        <label for="newPassword" class="block text-sm font-medium text-gray-700">New Password</label>
+                        <input id="newPassword" name="newPassword" type="password" required
+                            class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    </div>
+                    <div class="mb-4">
+                        <label for="confirmNewPassword" class="block text-sm font-medium text-gray-700">Confirm New Password</label>
+                        <input id="confirmNewPassword" name="confirmNewPassword" type="password" required
+                            class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit"
+                        class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                        Update Password
+                    </button>
+                </div>
+            </form>
+
             <div class="mt-4">
-                <a href="/home" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                <a href="/home" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
                     Back to Home
                 </a>
             </div>

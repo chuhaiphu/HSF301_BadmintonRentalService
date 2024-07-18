@@ -9,12 +9,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,6 +19,7 @@ import java.util.List;
 public class HomeController {
     private final CustomerService customerService;
     private final ICourtService courtService;
+
     @GetMapping()
     public String getHomePage(Model model, HttpSession session) {
         List<Court> activeCourts = courtService.findAll();
@@ -47,7 +43,6 @@ public class HomeController {
         return "home-page";
     }
 
-
     @GetMapping("/profile")
     public String getProfilePage(Model model, HttpSession session) {
         Customer customer = (Customer) session.getAttribute("customer");
@@ -58,38 +53,19 @@ public class HomeController {
         return "redirect:/login";
     }
 
-    @PostMapping("/profile/update")
-    public String updateProfile(@ModelAttribute Customer updatedCustomer,
-                                @RequestParam String oldPassword,
-                                @RequestParam String newPassword,
-                                @RequestParam String confirmNewPassword,
-                                HttpSession session,
-                                Model model) {
+    @PostMapping("/profile/update-info")
+    public String updateProfileInfo(@ModelAttribute Customer updatedCustomer,
+                                    HttpSession session,
+                                    Model model) {
         Customer currentCustomer = (Customer) session.getAttribute("customer");
         if (currentCustomer != null) {
             try {
-                if (!customerService.validatePassword(currentCustomer, oldPassword)) {
-                    model.addAttribute("updateStatus", "incorrectPassword");
-                    return "profile-page";
-                }
-    
-                if (!newPassword.isEmpty() && !newPassword.equals(confirmNewPassword)) {
-                    model.addAttribute("updateStatus", "passwordMismatch");
-                    return "profile-page";
-                }
-    
-                // Update customer information
                 currentCustomer.setFirstName(updatedCustomer.getFirstName());
                 currentCustomer.setLastName(updatedCustomer.getLastName());
                 currentCustomer.setGender(updatedCustomer.getGender());
                 currentCustomer.setDob(updatedCustomer.getDob());
-    
-                // Update password if a new one is provided
-                if (!newPassword.isEmpty()) {
-                    customerService.updatePassword(currentCustomer, newPassword);
-                }
-    
-                customerService.updateProfile(currentCustomer);
+
+                customerService.update(currentCustomer);
                 session.setAttribute("customer", currentCustomer);
                 model.addAttribute("updateStatus", "success");
             } catch (Exception e) {
@@ -97,6 +73,32 @@ public class HomeController {
             }
         }
         return "profile-page";
-    }    
+    }
+
+    @PostMapping("/profile/update-password")
+    public String updatePassword(@RequestParam String oldPassword,
+                                 @RequestParam String newPassword,
+                                 @RequestParam String confirmNewPassword,
+                                 HttpSession session,
+                                 Model model) {
+        Customer currentCustomer = (Customer) session.getAttribute("customer");
+        if (currentCustomer != null) {
+            try {
+                if (!customerService.validatePassword(currentCustomer, oldPassword)) {
+                    model.addAttribute("updateStatus", "incorrectPassword");
+                } else if (!newPassword.equals(confirmNewPassword)) {
+                    model.addAttribute("updateStatus", "passwordMismatch");
+                } else {
+                    customerService.updatePassword(currentCustomer, newPassword);
+                    model.addAttribute("updateStatus", "success");
+                }
+            } catch (Exception e) {
+                model.addAttribute("updateStatus", "failure");
+            }
+            // Add this line to ensure the customer object is always in the model
+            model.addAttribute("customer", currentCustomer);
+        }
+        return "profile-page";
+    }
 
 }
