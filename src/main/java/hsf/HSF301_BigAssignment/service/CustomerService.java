@@ -40,6 +40,11 @@ public class CustomerService implements ICustomerService {
         return customerRepo.findById(id);
     }
 
+    @Override
+    public Customer findByEmail(String email) {
+        return customerRepo.findByEmail(email);
+    }
+
     public boolean validatePassword(Customer customer, String oldPassword) {
         return customer.getPassword().equals(oldPassword);
     }

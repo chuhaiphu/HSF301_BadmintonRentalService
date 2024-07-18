@@ -41,9 +41,13 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String register(@ModelAttribute Customer customer, HttpSession session) {
+    public String register(@ModelAttribute Customer customer, RedirectAttributes redirect, HttpSession session) {
         try {
             customer.setStatus(true);
+            if (customerService.findByEmail(customer.getEmail()) != null) {
+                redirect.addFlashAttribute("warning", "Email has already taken!");
+                return "redirect:/register";
+            }
             customerService.save(customer);
             session.setAttribute("registerStatus", "success");
             return "redirect:/login";
